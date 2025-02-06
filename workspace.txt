@@ -1,0 +1,139 @@
+const autoCloseTarget = [
+	{
+		name: 'size', 
+		inline: true, 
+		args: true, 
+		argsContent: [
+			{
+				name: '', 
+				value: ['xx-small', 'x-small', 'smaller', 'small', 	'large', 'larger', 'x-large', 'xx-large', 'custom']
+			}]},
+	{
+		name: 'ul', 
+		inline: true,args: false
+	},
+	{
+		name: 'li', 
+		inline: true,args: false
+	},
+	{
+		name: 'ol', 
+		inline: true,args: false
+	},
+	{
+		name: 'collapsible', 
+		inline: false, 
+		args: true, 
+		argsContent: [{name: 'show', 
+		value: ['"+ open"']},{name: "hide", 
+		value: ['"- hide"']},{name: "hideLocation", 
+		value: ['"top"','"both"','"bottom"']}]
+	},
+	{
+	name: 'a', 
+	inline: true, 
+	args: true, 
+	argsContent: [{name: 'href', 
+	value: ['"http://scp-jp.wikidot.com/example.link"']}]},
+	{
+	name: 'gallery', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: 'size', 
+	value: ['"square"', 
+	'"thumbnail"', 
+	'"small"', 
+	'"medium"']}]},
+	{
+	name: 'note', 
+	inline: true,args: false},
+	{
+	name: 'html', 
+	inline: false,args: false},
+	{
+	name: 'code', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: 'type', 
+	value: []}]},
+	{
+	name: 'table', 
+	inline: false, 
+	args: false},
+	{
+	name: 'row', 
+	inline: false, 
+	args: false},
+	{
+	name: 'hcell', 
+	inline: false, 
+	args: false},
+	{
+	name: 'cell', 
+	inline: false, 
+	args: false},
+	{
+	name: 'div', 
+	inline: false, 
+	args: false},
+	{
+	name: 'span', 
+	inline: true, 
+	args: false},
+	{
+	name: 'math', 
+	inline: true, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'footnote', 
+	inline: true, 
+	args: false},
+	{
+	name: 'bibliography', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'embedvideo', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'embedaudio', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'embed', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'iframe', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'iftags', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: []}]},
+	{
+	name: 'tabview', 
+	inline: false, 
+	args: false},
+	{
+	name: 'tab', 
+	inline: false, 
+	args: true, 
+	argsContent: [{name: '', 
+	value: ['tab-Name']}]},
+	];
