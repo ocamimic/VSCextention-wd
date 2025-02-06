@@ -11,7 +11,8 @@ tsが不要な部分
 * \{\{teletype\}\}
 * \-\-strike\-\-
 * \[!\-\-comment\-\-\]
+* autoClose
 
 # 未完成
-* [[div]],[[span]],[[collapsible]]などの入力補完およびautoClose
+* [[div]],[[span]],[[collapsible]]などの入力補完
 * 一部コンポーネント(credit moduleなど)の自動入力
