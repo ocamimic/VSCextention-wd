@@ -85,22 +85,22 @@ export function activate(context: vscode.ExtensionContext) {
 				}]},
 		{
 			name: 'ul', 
-			description: '"description"', 
+			description: '', 
 			inline: true,args: false
 		},
 		{
 			name: 'li', 
-			description: '"description"', 
+			description: '', 
 			inline: true,args: false
 		},
 		{
 			name: 'ol', 
-			description: '"description"', 
+			description: '', 
 			inline: true,args: false
 		},
 		{
 			name: 'collapsible', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'show', 
@@ -113,14 +113,14 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 		{
 			name: 'a', 
-			description: '"description"', 
+			description: '', 
 			inline: true, 
 			args: true, 
 			argsContent: [{name: 'href', 
 			value: ['"http://scp-jp.wikidot.com/example.link"']}]},
 		{
 			name: 'gallery', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -133,89 +133,89 @@ export function activate(context: vscode.ExtensionContext) {
 		]},
 		{
 			name: 'note', 
-			description: '"description"', 
+			description: '', 
 			inline: true,args: false},
 		{
 			name: 'html', 
-			description: '"description"', 
+			description: '', 
 			inline: false,args: false},
 		{
 			name: 'code', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'type', 
 			value: ['"php"', '"html"', '"cpp"', '"css"', '"diff"', '"dtd"', '"java"', '"javascript"', '"perl"', '"python"', '"ruby"', '"xml"']}]},
 		{
 			name: 'table', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'row', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'hcell', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'cell', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'div', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'span', 
-			description: '"description"', 
+			description: '', 
 			inline: true, 
 			args: false},
 		{
 			name: 'math', 
-			description: '"description"', 
+			description: '', 
 			inline: true, 
 			args: true, 
 			argsContent: [{name: 'label', 
 			value: ['"label1"']}]},
 		{
 			name: 'footnote', 
-			description: '"description"', 
+			description: '', 
 			inline: true, 
 			args: false},
 		{
 			name: 'bibliography', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'title', 
 			value: ['"custom-title"']}]},
 		{
 			name: 'embedvideo', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false
 		},
 		{
 			name: 'embedaudio', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false
 		},
 		{
 			name: 'embed', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false
 		},
 		{
 			name: 'iframe', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -236,26 +236,26 @@ export function activate(context: vscode.ExtensionContext) {
 		]},
 		{
 			name: 'iftags', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: '', 
 			value: ["Tag-name"]}]},
 		{
 			name: 'tabview', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: false},
 		{
 			name: 'tab', 
-			description: '"description"', 
+			description: '', 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: '', 
 			value: ['tab-Name']}]},
 		];
 	const autoCloseTags = vscode.languages.registerCompletionItemProvider('wikidot', {
-		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
+		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
 			return autoCloseTarget.map(tag => {
 				const cursor = tag.inline ? '$0' : '\n$0\n';
 				//argsがtrueのとき、argsContent.name=argsContent.valueとする
@@ -281,11 +281,27 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				const item = new vscode.CompletionItem(`[[${tag.name}]]`, vscode.CompletionItemKind.Snippet);
 				item.insertText = new vscode.SnippetString(`${leftBrackets}${tag.name}${snipArgs}]]${cursor}[[/${tag.name}${rightBrackets}`);
-				item.documentation = new vscode.MarkdownString(tag.description || "説明がありません");
+				item.documentation = new vscode.MarkdownString(tag.description || "Documentation not found.\nPlease contact the developer.");
 
 				return item;
 			}
 		)        
 	}});
-	context.subscriptions.push(syntaxWord, moduleCompletion, autoCloseTags);
+	const hoverDoc = vscode.languages.registerHoverProvider('wikidot', {
+		provideHover(document: vscode.TextDocument, position: vscode.Position) {
+			const range = document.getWordRangeAtPosition(position, /\[\[\w+.*\]\]/);
+			if (!range) {
+				return;
+			}
+			const tag = autoCloseTarget.find(t => t.name === document.getText(range).replace(/\[\[| .*\]\]/g, ''));
+			
+			if (!tag || !tag.description) {
+				return;
+			}
+	
+			return new vscode.Hover(new vscode.MarkdownString(tag.description));
+		}
+	});
+
+	context.subscriptions.push(syntaxWord, moduleCompletion, autoCloseTags, hoverDoc);	
 }
