@@ -72,33 +72,188 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		)
 	}});
-	const autoCloseTarget = [{name: 'size', inline: true, args: true, argsContent: [{name: '', value: ['xx-small','x-small','smaller','small', 'large','larger','x-large','xx-large','custom']}]},
-	{name: 'ul', inline: true,args: false},
-	{name: 'li', inline: true,args: false},
-	{name: 'ol', inline: true,args: false},
-	{name: 'collapsible',inline: false, args: true, argsContent: [{name: 'show', value: ['"+ open"']},{name: "hide", value: ['"- hide"']},{name: "hideLocation", value: ['"top"','"both"','"bottom"']}]},
-	{name: 'a', inline: true, args: true, argsContent: [{name: 'href', value: ['"http://scp-jp.wikidot.com/example.link"']}]},
-	{name: 'gallery', inline: false, args: true, argsContent: [{name: 'size', value: ['"square"', '"thumbnail"', '"small"', '"medium"']}]},
-	{name: 'note', inline: true,args: false},
-	{name: 'html', inline: false,args: false},
-	{name: 'code', inline: false, args: true, argsContent: [{name: 'type', value: []}]},
-	{name: 'table', inline: false, args: false},
-	{name: 'row', inline: false, args: false},
-	{name: 'hcell', inline: false, args: false},
-	{name: 'cell', inline: false, args: false},
-	{name: 'div', inline: false, args: false},
-	{name: 'span', inline: true, args: false},
-	{name: 'math', inline: true, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'footnote', inline: true, args: false},
-	{name: 'bibliography', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'embedvideo', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'embedaudio', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'embed', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'iframe', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'iftags', inline: false, args: true, argsContent: [{name: '', value: []}]},
-	{name: 'tabview', inline: false, args: false},
-	{name: 'tab', inline: false, args: true, argsContent: [{name: '', value: ['tab-Name']}]},
-	];
+	const autoCloseTarget = [
+		{
+			name: 'size', 
+			description: '文字サイズを変更する。\n', 
+			inline: true, 
+			args: true, 
+			argsContent: [
+				{
+					name: '', 
+					value: ['xx-small', 'x-small', 'smaller', 'small', 	'large', 'larger', 'x-large', 'xx-large', 'custom']
+				}]},
+		{
+			name: 'ul', 
+			description: '"description"', 
+			inline: true,args: false
+		},
+		{
+			name: 'li', 
+			description: '"description"', 
+			inline: true,args: false
+		},
+		{
+			name: 'ol', 
+			description: '"description"', 
+			inline: true,args: false
+		},
+		{
+			name: 'collapsible', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [{name: 'show', 
+			value: ['"+ open"']}, 
+			{name: "hide", 
+			value: ['"- hide"']}, 
+			{name: "hideLocation", 
+			value: ['"top"','"both"','"bottom"']}
+			]
+		},
+		{
+			name: 'a', 
+			description: '"description"', 
+			inline: true, 
+			args: true, 
+			argsContent: [{name: 'href', 
+			value: ['"http://scp-jp.wikidot.com/example.link"']}]},
+		{
+			name: 'gallery', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [
+			{name: 'size', 
+			value: ['"square"', '"thumbnail"', '"small"', '"medium"']}, 
+			{name: 'order', 
+			value: ['"name"', '"name desc"', '"created_at"', '"created_at desc"']},
+			{name: 'viewer', 
+			value: ['"false"', '"no"', '"true"', '"yes"']}
+		]},
+		{
+			name: 'note', 
+			description: '"description"', 
+			inline: true,args: false},
+		{
+			name: 'html', 
+			description: '"description"', 
+			inline: false,args: false},
+		{
+			name: 'code', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [{name: 'type', 
+			value: ['"php"', '"html"', '"cpp"', '"css"', '"diff"', '"dtd"', '"java"', '"javascript"', '"perl"', '"python"', '"ruby"', '"xml"']}]},
+		{
+			name: 'table', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'row', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'hcell', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'cell', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'div', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'span', 
+			description: '"description"', 
+			inline: true, 
+			args: false},
+		{
+			name: 'math', 
+			description: '"description"', 
+			inline: true, 
+			args: true, 
+			argsContent: [{name: 'label', 
+			value: ['"label1"']}]},
+		{
+			name: 'footnote', 
+			description: '"description"', 
+			inline: true, 
+			args: false},
+		{
+			name: 'bibliography', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [{name: 'title', 
+			value: ['"custom-title"']}]},
+		{
+			name: 'embedvideo', 
+			description: '"description"', 
+			inline: false, 
+			args: false
+		},
+		{
+			name: 'embedaudio', 
+			description: '"description"', 
+			inline: false, 
+			args: false
+		},
+		{
+			name: 'embed', 
+			description: '"description"', 
+			inline: false, 
+			args: false
+		},
+		{
+			name: 'iframe', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [
+			{name: '', 
+			value: ['URL-source']},
+			{name: 'frameborder', 
+			value: [0,1]
+			},
+			{name: 'align',
+			value: ['"left"', '"right"', '"top"', '"bottom"', '"middle"']}, 
+			{name: 'height', 
+			value: ['"XX"', '"XX%"']}, 
+			{name: 'width', 
+			value: ['"XX"', '"XX%"']}, 
+			{name: 'scrolling', 
+			value: ['"yes"', '"no"']}, 
+			{name: 'class,style', value: ['']}
+		]},
+		{
+			name: 'iftags', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [{name: '', 
+			value: ["Tag-name"]}]},
+		{
+			name: 'tabview', 
+			description: '"description"', 
+			inline: false, 
+			args: false},
+		{
+			name: 'tab', 
+			description: '"description"', 
+			inline: false, 
+			args: true, 
+			argsContent: [{name: '', 
+			value: ['tab-Name']}]},
+		];
 	const autoCloseTags = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
 			return autoCloseTarget.map(tag => {
@@ -108,7 +263,7 @@ export function activate(context: vscode.ExtensionContext) {
 				if(tag.args) {
 					const snipArgsArray: string[] = [];
 					tag.argsContent?.forEach((synArg, index) =>{
-						var options = '${' + (index + 1) + '|' + synArg.value.join(',') + '|}';
+						var options = `\${${index + 1}|${synArg.value.join(',')}|}`;
 						if(synArg.name != ''){
 							snipArgsArray.push(synArg.name + '=' + options);
 						}else{
@@ -126,6 +281,8 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				const item = new vscode.CompletionItem(`[[${tag.name}]]`, vscode.CompletionItemKind.Snippet);
 				item.insertText = new vscode.SnippetString(`${leftBrackets}${tag.name}${snipArgs}]]${cursor}[[/${tag.name}${rightBrackets}`);
+				item.documentation = new vscode.MarkdownString(tag.description || "説明がありません");
+
 				return item;
 			}
 		)        
