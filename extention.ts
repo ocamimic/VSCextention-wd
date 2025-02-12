@@ -1,33 +1,49 @@
 import * as vscode from 'vscode';
+const configKey = 'ftmlACConfig';
+async function updateSettings() {
+    const config = vscode.workspace.getConfiguration(configKey);
+    const choices = [
+        { label: 'ユーザー名', key: 'userName', type: 'string' },
+        { label: 'SCP記事', key: 'isSCP', type: 'boolean' },
+		{label: 'テンプレート', key: 'template', type: 'string'}
+    ];
+    const selectedSetting = await vscode.window.showQuickPick(choices, {
+        placeHolder: '変更する設定を選んでください'
+    });
+
+    if (!selectedSetting) {
+        return;
+    }
+
+    let newValue: string | boolean | undefined;
+
+    if (selectedSetting.type === 'boolean') {
+        const boolChoice = await vscode.window.showQuickPick(['true', 'false'], {
+            placeHolder: `現在の値: ${config.get(selectedSetting.key)}`
+        });
+        newValue = boolChoice === 'true';
+    } else {
+        newValue = await vscode.window.showInputBox({
+            prompt: `${selectedSetting.label}を入力してください`,
+            value: config.get<string>(selectedSetting.key) || ''
+        });
+    }
+
+    if (newValue !== undefined) {
+        await config.update(selectedSetting.key, newValue, vscode.ConfigurationTarget.Global);
+        vscode.window.showInformationMessage(`${selectedSetting.label}を更新しました: ${newValue}`);
+    }
+}
 export function activate(context: vscode.ExtensionContext) {
-	const configKey = 'ftmlACConfig';
 	function getConfig() {
         const config = vscode.workspace.getConfiguration(configKey);
         return {
             userName: config.get('userName', 'user-name'),
-			isSCP: config.get('false', 'false'),
+			isSCP: config.get('isSCP', 'false'),
             template: config.get('template', '')
         };
     }
-	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', async () => {
-        const config = vscode.workspace.getConfiguration(configKey);
-        const userName = await vscode.window.showInputBox({
-            prompt: 'ユーザー名を入力してください',
-			placeHolder: 'userName', 
-            value: config.get('userName', 'userName')
-        });
-		const isSCP = await vscode.window.showQuickPick(['true', 'false'], {
-            placeHolder: 'SCP記事を執筆しますか？trueの場合はクレジットモジュール及びテンプレートがSCP記事向けになります。'
-        });
-        
-        if (userName !== undefined) {
-            config.update('userName', userName, vscode.ConfigurationTarget.Global);
-        }
-		if (isSCP !== undefined) {
-            config.update('isSCP', isSCP === 'true', vscode.ConfigurationTarget.Global);
-        }
-        vscode.window.showInformationMessage('設定が更新されました');
-    });
+	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', updateSettings);
 	let templateWriter = vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'wikidot'}, {
         provideCompletionItems(document, position) {
 			const lineText = document.lineAt(position.line).text;
@@ -37,13 +53,22 @@ export function activate(context: vscode.ExtensionContext) {
 	
 			const config = getConfig();
 			const year = new Date().getFullYear();
-			const title = config.isSCP ? 'SCP-XXXX-JP - メタタイトル' : '作品のタイトル';
-			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${config.template}`);
+			var title;
+			var template;
+			if(config.isSCP) {
+				title = 'SCP-XXXX-JP - メタタイトル';
+				template = `**アイテム番号:** SCP-XXXX-JP\n\n**オブジェクトクラス:** \n\n**特別収容プロトコル:** \n\n**説明:** `;
+			} else {
+				title = '作品のタイトル';
+				template = config.template;
+			}
+
+			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`);
 			const item = new vscode.CompletionItem('![[include credit:start]]', vscode.CompletionItemKind.Snippet);
 			item.insertText = snippet;
-			item.detail = 'クレモジとテンプレートを挿入';
+			item.detail = 'クレジットモジュールとテンプレートを挿入';
 			item.range = new vscode.Range(position.line, 0, position.line, 1);
-			item.documentation = `クレジットモジュールと、設定したテンプレートを入力する。\n[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${config.template}`
+			item.documentation = `クレジットモジュールと、設定したテンプレートを入力する。\n[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`
 			return [item];
 		}
 	}, '!');
