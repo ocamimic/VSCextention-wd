@@ -1,50 +1,64 @@
 import * as vscode from 'vscode';
-
 export function activate(context: vscode.ExtensionContext) {
-	let cmdCfg = vscode.commands.registerCommand('extension.config', async () => {
-		// ユーザーに変更する設定項目を選ばせる
-		const settingOption = await vscode.window.showQuickPick(
-			['ユーザー名', 'サイト'],
-			{
-				placeHolder: '変更する設定を選択してください'
+	const configKey = 'ftmlACConfig';
+	function getConfig() {
+        const config = vscode.workspace.getConfiguration(configKey);
+        return {
+            userName: config.get('userName', 'user-name'),
+			isSCP: config.get('false', 'false'),
+            template: config.get('template', '')
+        };
+    }
+	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', async () => {
+        const config = vscode.workspace.getConfiguration(configKey);
+        const userName = await vscode.window.showInputBox({
+            prompt: 'ユーザー名を入力してください',
+			placeHolder: 'userName', 
+            value: config.get('userName', 'userName')
+        });
+		const isSCP = await vscode.window.showQuickPick(['true', 'false'], {
+            placeHolder: 'SCP記事を執筆しますか？trueの場合はクレジットモジュール及びテンプレートがSCP記事向けになります。'
+        });
+        
+        if (userName !== undefined) {
+            config.update('userName', userName, vscode.ConfigurationTarget.Global);
+        }
+		if (isSCP !== undefined) {
+            config.update('isSCP', isSCP === 'true', vscode.ConfigurationTarget.Global);
+        }
+        vscode.window.showInformationMessage('設定が更新されました');
+    });
+	let templateWriter = vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'wikidot'}, {
+        provideCompletionItems(document, position) {
+			const lineText = document.lineAt(position.line).text;
+			if (!lineText.startsWith('!')) {
+				return undefined;
 			}
-		);
-
-		if (settingOption) {
-			let settingValue: string | undefined;
-
-			// ユーザーが選択した設定項目に基づいて値を入力させる
-			switch(settingOption){
-				case 'ユーザー名':
-					settingValue = await vscode.window.showInputBox({placeHolder: 'ユーザー名を入力してください'});
-					if (settingValue) {
-					const config = vscode.workspace.getConfiguration();
-					await config.update('extension.userName', settingValue, vscode.ConfigurationTarget.Global);
-					vscode.window.showInformationMessage(`ユーザー名を${settingValue}に設定しました`);
-					}
-				case 'サイト':
-					settingValue = await vscode.window.showInputBox({placeHolder: '例: scp-jp.wikidot.com'}); 
-					if (settingValue) {
-						const config = vscode.workspace.getConfiguration();
-						await config.update('extension.site', settingValue, vscode.ConfigurationTarget.Global);
-						vscode.window.showInformationMessage(`サイトを${settingValue}に設定しました`);
-						}
-			}
+	
+			const config = getConfig();
+			const year = new Date().getFullYear();
+			const title = config.isSCP ? 'SCP-XXXX-JP - メタタイトル' : '作品のタイトル';
+			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${config.template}`);
+			const item = new vscode.CompletionItem('![[include credit:start]]', vscode.CompletionItemKind.Snippet);
+			item.insertText = snippet;
+			item.detail = 'クレモジとテンプレートを挿入';
+			item.range = new vscode.Range(position.line, 0, position.line, 1);
+			item.documentation = `クレジットモジュールと、設定したテンプレートを入力する。\n[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${config.template}`
+			return [item];
 		}
-	});
+	}, '!');
 	//辞書。構文の入力補完以外の、各種値などの予測変換。いらなかったら消す。
 	const syntaxSubArray = ['class','id','x-small','xx-small','small','smaller','large','larger','x-large','xx-large','show','hide','style','type','hideLocation','top','both','bottom','link','alt','title','name','caption','width','align','right','left','center','clear','true','false','order','viewer','yes','no','desc',];
 	const dict = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(_document: vscode.TextDocument, _position: vscode.Position, _token: vscode.CancellationToken, _context: vscode.CompletionContext) {
 			var syntaxWord = syntaxSubArray.map(syntax => new vscode.CompletionItem(syntax, vscode.CompletionItemKind.Text));
-
 						return syntaxWord;
 					}
 				}
 		);
 	//autoclose tags
 	const modules = [
-		//[[module name]], if close is true, insert[[/module]], args is arguments
+		//[[module name]], if close is true, insert[[/module]]
 		{
 			name: "ListDrafts", 
 			close: false, 
@@ -757,6 +771,5 @@ export function activate(context: vscode.ExtensionContext) {
 			return new vscode.Hover(description, new vscode.Range(position.line, closestStart, position.line, closestEnd));
 		}
 	});
-	
-	context.subscriptions.push(cmdCfg, dict, moduleCompletion, CompleteTags, hoverDoc, moduleHoverDocs);	
+	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, CompleteTags, hoverDoc, moduleHoverDocs);
 }
