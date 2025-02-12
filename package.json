@@ -12,10 +12,37 @@
   "activationEvents": [
   ],
   "contributes": {
-  "languages": [
+    "commands": [
+      {
+        "command": "ftmlAC.config",
+        "title": "設定を変更する"
+      }
+    ],
+    "configuration": {
+      "title": "カスタム設定",
+      "properties": {
+        "ftmlACConfig.userName": {
+          "type": "string",
+          "default": "DefaultUser",
+          "description": "ユーザー名"
+        },
+        "ftmlACConfig.isSCP": {
+          "type": "boolean",
+          "default": false,
+          "description": "SCPモードを有効にする"
+        },
+        "ftmlACConfig.template": {
+          "type": "string",
+          "default": "",
+          "description": "挿入されるテンプレート"
+        }
+      }
+    },
+    "languages": [
     {
       "id": "wikidot",
       "extensions": [".ftml",".wd",".wikidot",".wj",".wikijump"],
+      "aliases": ["Wikidot"],
       "configuration": "./language-configuration.json"
     }
   ]
