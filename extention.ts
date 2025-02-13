@@ -35,185 +35,135 @@ async function updateSettings() {
     }
 }
 export function activate(context: vscode.ExtensionContext) {
-	function getConfig() {
-        const config = vscode.workspace.getConfiguration(configKey);
-        return {
-            userName: config.get('userName', 'user-name'),
-			isSCP: config.get('isSCP', 'false'),
-            template: config.get('template', '')
-        };
-    }
-	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', updateSettings);
-	let templateWriter = vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'wikidot'}, {
-        provideCompletionItems(document, position) {
-			const lineText = document.lineAt(position.line).text;
-			if (!lineText.startsWith('!')) {
-				return undefined;
-			}
-	
-			const config = getConfig();
-			const year = new Date().getFullYear();
-			var title;
-			var template;
-			if(config.isSCP) {
-				title = 'SCP-XXXX-JP - メタタイトル';
-				template = `**アイテム番号:** SCP-XXXX-JP\n\n**オブジェクトクラス:** \n\n**特別収容プロトコル:** \n\n**説明:** `;
-			} else {
-				title = '作品のタイトル';
-				template = config.template;
-			}
-
-			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`);
-			const item = new vscode.CompletionItem('![[include credit:start]]', vscode.CompletionItemKind.Snippet);
-			item.insertText = snippet;
-			item.detail = 'クレジットモジュールとテンプレートを挿入';
-			item.range = new vscode.Range(position.line, 0, position.line, 1);
-			item.documentation = `クレジットモジュールと、設定したテンプレートを入力する。\n[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`
-			return [item];
-		}
-	}, '!');
-	//辞書。構文の入力補完以外の、各種値などの予測変換。いらなかったら消す。
-	const syntaxSubArray = ['class','id','x-small','xx-small','small','smaller','large','larger','x-large','xx-large','show','hide','style','type','hideLocation','top','both','bottom','link','alt','title','name','caption','width','align','right','left','center','clear','true','false','order','viewer','yes','no','desc',];
-	const dict = vscode.languages.registerCompletionItemProvider('wikidot', {
-		provideCompletionItems(_document: vscode.TextDocument, _position: vscode.Position, _token: vscode.CancellationToken, _context: vscode.CompletionContext) {
-			var syntaxWord = syntaxSubArray.map(syntax => new vscode.CompletionItem(syntax, vscode.CompletionItemKind.Text));
-						return syntaxWord;
-					}
-				}
-		);
-	//autoclose tags
+	//List of words and tags
+	const syntaxSubArray = [
+		'class','id','x-small','xx-small','small','smaller','large','larger','x-large','xx-large','show','hide','style','type','hideLocation','top','both','bottom','link','alt','title','name','caption','width','align','right','left','center','clear','true','false','order','viewer','yes','no','desc'
+	];
 	const modules = [
 		//[[module name]], if close is true, insert[[/module]]
 		{
 			name: "ListDrafts", 
 			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [{name: 'pagetype',value: ['"exists"','"notexists"']}], 
 			description: `description`
 		},
 		{
 			name: "ListPages", 
 			close: true, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "CountPages", 
 			close: true, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false,  
 			description: `description`
 		},
 		{
 			name: "ListUsers", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [{name: 'users',value: ['"."']}], 
 			description: `description`
 		},
 		{
 			name: "TagCloud", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "PageCalendar", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "PageTree", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "Backlinks", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "WantedPages", 
 			close: false, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "OrphanedPages", 
 			close: false, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "Categories", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			args: false, 
 			description: `description`
 		},
 		{
 			name: "Watchers", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "Members", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "Join", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "SendInvitations", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "WhoInvited", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "CSS", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "NewPage", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "Clone", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
@@ -221,27 +171,27 @@ export function activate(context: vscode.ExtensionContext) {
 			name: "Redirect", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [{name: 'destination',value: ['"http://URL/where-to-go/"']}], 
 			description: `description`
 		},
 		{
 			name: "ThemePreviewer", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "MailForm", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
 		{
 			name: "PetitionAdmin", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
@@ -372,60 +322,18 @@ export function activate(context: vscode.ExtensionContext) {
 			description: `description`
 		}
 	]
-	const moduleCompletion = vscode.languages.registerCompletionItemProvider('wikidot', {
-		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
-			return modules.map(module => {
-				var SnippetString: string;
-				let snipArgs = '';
-				//argsがあるとき、[[module name' args']]部分をsnipArgsとして出力
-				if(module.args) {
-					const snipArgsArray: string[] = [];
-					module.argsContent?.forEach((synArg, index) =>{
-						var options = `\${${index + 1}|${synArg.value.join(',')}|}`;
-						if(synArg.name != ''){
-							snipArgsArray.push(synArg.name + '=' + options);
-						}else{
-							snipArgsArray.push(options);
-						}});
-
-					snipArgs = ' ' + snipArgsArray.join(' ');
-					}
-				if(module.close) {
-					SnippetString = `[[module ${module.name}${snipArgs}]]\n$0\n[[/module]]`;
-				}else {
-					SnippetString = `[[module ${module.name}${snipArgs}]]`;
-				}
-				const BracketCount = (document.lineAt(position.line).text.substring(0, position.character).match(/\[{2}/g) || []).length;
-				if(BracketCount >= 1) {
-					SnippetString = SnippetString.substring(2,SnippetString.length - 2)
-				}
-				const item = new vscode.CompletionItem(`[[module ${module.name}]]`, vscode.CompletionItemKind.Snippet);
-				item.insertText = new vscode.SnippetString(SnippetString);
-				item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
-				return item
-			}
-		)
-	}});
-	const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
-		provideHover(document: vscode.TextDocument, position: vscode.Position) {
-			const lineText = document.lineAt(position.line).text;
-			const regexp = /\[\[\/?module\s(\w+).*?\]\]/g;
-			const match = lineText.match(regexp)
-			if(!match){
-				return;
-			}
-			const tag = modules.find(t => t.name === match[1]);
-			if (!tag || !tag.description) {
-				return;
-			}
-			return new vscode.Hover(new vscode.MarkdownString(tag.description));
-		}
-	});
 	const tags = [
 		[
 		{
 			name: 'size', 
-			description: `文字サイズを変更する。\n\n既定の単語(xx-small～xx-large)、もしくは1～５桁のpx,em,%値(10px,2em,300%など)。`, 
+			description: `文字サイズを変更する。  
+既定の単語(xx-small～xx-large)、もしくは1～5桁のpx,em,%値(10px,2em,300%など)。  
+\`\`\`wikidot  
+[[size 200px]]  
+200pxのデッカい文字  
+[[/size]]  
+\`\`\`
+`, 
 			inline: true, 
 			args: true, 
 			argsContent: [
@@ -450,7 +358,7 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 		{
 			name: 'collapsible', 
-			description: `テキストを折りたたむ。\n\nshow、hideはほぼ必須。\n\nhideLocation、foldedの設定は任意。`, 
+			description: `テキストを折りたたむ。\n\nshow、hideはほぼ必須。\n\nhideLocation、foldedの設定は任意。\n\n入れ子にする場合はcolmodを使用のこと。`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'show', 
@@ -472,7 +380,7 @@ export function activate(context: vscode.ExtensionContext) {
 			value: ['"http://scp-jp.wikidot.com/example.link"']}]},
 		{
 			name: 'gallery', 
-			description: `複数の画像を表示する。詳細は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:images#toc1)(あとで書き直すかも)`, 
+			description: `複数の画像を表示する。\n\nviewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。`, 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -485,7 +393,7 @@ export function activate(context: vscode.ExtensionContext) {
 		]},
 		{
 			name: 'note', 
-			description: `ノート(既定のスタイルを持つエレメント)を挿入する。div.wiki-note`, 
+			description: `ノート(既定のスタイルを持つエレメント)を挿入する。\n\n[[div class="wiki-note"]]\n\nこれと同じ。\n\n[[/div]]`, 
 			inline: true,args: false},
 		{
 			name: 'html', 
@@ -493,7 +401,7 @@ export function activate(context: vscode.ExtensionContext) {
 			inline: false,args: false},
 		{
 			name: 'code', 
-			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。\n\n対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。`, 
+			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。\n\n対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。\n\n本拡張機能の選択肢も同様。`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'type', 
@@ -520,7 +428,13 @@ export function activate(context: vscode.ExtensionContext) {
 			args: false},
 		{
 			name: 'div', 
-			description: `HTMLのdivと同じ`, 
+			description: `HTMLのdivと同じ。一行で書くと解析されない。  
+			\`\`\`wikidot  
+			[[div]]  
+			content  
+			[[/div]]  
+			\`\`\`
+			このように書く必要がある。`, 
 			inline: false, 
 			args: false},
 		{
@@ -707,6 +621,103 @@ export function activate(context: vscode.ExtensionContext) {
 				value: ['words']}]},
 			]
 	];
+
+	function getConfig() {
+        const config = vscode.workspace.getConfiguration(configKey);
+        return {
+            userName: config.get('userName', 'user-name'),
+			isSCP: config.get('isSCP', 'false'),
+            template: config.get('template', '')
+        };
+    }
+	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', updateSettings);
+	let templateWriter = vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'wikidot'}, {
+        provideCompletionItems(document, position) {
+			const lineText = document.lineAt(position.line).text;
+			if (!lineText.startsWith('!')) {
+				return undefined;
+			}
+	
+			const config = getConfig();
+			const year = new Date().getFullYear();
+			var title;
+			var template;
+			if(config.isSCP) {
+				title = 'SCP-XXXX-JP - メタタイトル';
+				template = `**アイテム番号:** SCP-XXXX-JP\n\n**オブジェクトクラス:** \n\n**特別収容プロトコル:** \n\n**説明:** `;
+			} else {
+				title = '作品のタイトル';
+				template = config.template;
+			}
+
+			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`);
+			const item = new vscode.CompletionItem('![[include credit:start]]', vscode.CompletionItemKind.Snippet);
+			item.insertText = snippet;
+			item.detail = 'クレジットモジュールとテンプレートを挿入';
+			item.range = new vscode.Range(position.line, 0, position.line, 1);
+			item.documentation = `クレジットモジュールと、設定したテンプレートを入力する。\n[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`;
+			return [item];
+		}
+	}, '!');
+	//辞書。構文の入力補完以外の、各種値などの予測変換。いらなかったら消す。
+	const dict = vscode.languages.registerCompletionItemProvider('wikidot', {
+		provideCompletionItems(_document: vscode.TextDocument, _position: vscode.Position, _token: vscode.CancellationToken, _context: vscode.CompletionContext) {
+			var syntaxWord = syntaxSubArray.map(syntax => new vscode.CompletionItem(syntax, vscode.CompletionItemKind.Text));
+						return syntaxWord;
+					}
+				}
+		);
+	//autoclose tags
+	const moduleCompletion = vscode.languages.registerCompletionItemProvider('wikidot', {
+		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+			return modules.map(module => {
+				var SnippetString: string;
+				let snipArgs = '';
+				//argsがあるとき、[[module name' args']]部分をsnipArgsとして出力
+				if(module.args) {
+					const snipArgsArray: string[] = [];
+					module.argsContent?.forEach((synArg, index) =>{
+						var options = `\${${index + 1}|${synArg.value.join(',')}|}`;
+						if(synArg.name != ''){
+							snipArgsArray.push(synArg.name + '=' + options);
+						}else{
+							snipArgsArray.push(options);
+						}});
+
+					snipArgs = ' ' + snipArgsArray.join(' ');
+					}
+				if(module.close) {
+					SnippetString = `[[module ${module.name}${snipArgs}]]\n$0\n[[/module]]`;
+				}else {
+					SnippetString = `[[module ${module.name}${snipArgs}]]`;
+				}
+				const BracketCount = (document.lineAt(position.line).text.substring(0, position.character).match(/\[{2}/g) || []).length;
+				if(BracketCount >= 1) {
+					SnippetString = SnippetString.substring(2,SnippetString.length - 2)
+				}
+				const item = new vscode.CompletionItem(`[[module ${module.name}]]`, vscode.CompletionItemKind.Snippet);
+				item.insertText = new vscode.SnippetString(SnippetString);
+				item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
+				item.documentation.isTrusted = true;
+				return item
+			}
+		)
+	}});
+	const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
+		provideHover(document: vscode.TextDocument, position: vscode.Position) {
+			const lineText = document.lineAt(position.line).text;
+			const regexp = /\[\[\/?module\s(\w+).*?\]\]/g;
+			const match = lineText.match(regexp)
+			if(!match){
+				return;
+			}
+			const tag = modules.find(t => t.name === match[1]);
+			if (!tag || !tag.description) {
+				return;
+			}
+			return new vscode.Hover(new vscode.MarkdownString(tag.description));
+		}
+	});
 	const SyntaxList = tags[0].concat(tags[1]); 
 	const CompleteTags = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
@@ -734,6 +745,7 @@ export function activate(context: vscode.ExtensionContext) {
 				const item = new vscode.CompletionItem(`[[${tag.name}]]`, vscode.CompletionItemKind.Snippet);
 				item.insertText = new vscode.SnippetString(SnippetString);
 				item.documentation = new vscode.MarkdownString(tag.description || "Documentation not found.\n\nPlease contact the developer.");
+				item.documentation.isTrusted = true;
 
 				return item;
 			}
@@ -760,6 +772,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const item = new vscode.CompletionItem(`[[${tag.name}]]`, vscode.CompletionItemKind.Snippet);
 			item.insertText = new vscode.SnippetString(SnippetString);
 			item.documentation = new vscode.MarkdownString(tag.description || "Documentation not found.\n\nPlease contact the developer.");
+			item.documentation.isTrusted = true;
 
 			return item;
 		});
