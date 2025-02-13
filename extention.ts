@@ -41,281 +41,240 @@ export function activate(context: vscode.ExtensionContext) {
 	];
 	const modules = [
 		//[[module name]], if close is true, insert[[/module]]
-		{
-			name: "ListDrafts", 
+		{name: "ListDrafts", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: 'pagetype',value: ['"exists"','"notexists"']}], 
 			description: `description`
 		},
-		{
-			name: "ListPages", 
+		{name: "ListPages", 
 			close: true, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "CountPages", 
+		{name: "CountPages", 
 			close: true, 
 			args: false,  
 			description: `description`
 		},
-		{
-			name: "ListUsers", 
+		{name: "ListUsers", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: 'users',value: ['"."']}], 
 			description: `description`
 		},
-		{
-			name: "TagCloud", 
+		{name: "TagCloud", 
 			close: false, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "PageCalendar", 
+		{name: "PageCalendar", 
 			close: false, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "PageTree", 
+		{name: "PageTree", 
 			close: false, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "Backlinks", 
+		{name: "Backlinks", 
 			close: false, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "WantedPages", 
+		{name: "WantedPages", 
 			close: false, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "OrphanedPages", 
+		{name: "OrphanedPages", 
 			close: false, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Categories", 
+		{name: "Categories", 
 			close: false, 
 			args: false, 
 			description: `description`
 		},
-		{
-			name: "Watchers", 
+		{name: "Watchers", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Members", 
+		{name: "Members", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Join", 
+		{name: "Join", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "SendInvitations", 
+		{name: "SendInvitations", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "WhoInvited", 
+		{name: "WhoInvited", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "CSS", 
+		{name: "CSS", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "NewPage", 
+		{name: "NewPage", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Clone", 
+		{name: "Clone", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Redirect", 
+		{name: "Redirect", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: 'destination',value: ['"http://URL/where-to-go/"']}], 
 			description: `description`
 		},
-		{
-			name: "ThemePreviewer", 
+		{name: "ThemePreviewer", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "MailForm", 
+		{name: "MailForm", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "PetitionAdmin", 
+		{name: "PetitionAdmin", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "SiteGrid", 
+		{name: "SiteGrid", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "FeaturedSite", 
+		{name: "FeaturedSite", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Feed", 
+		{name: "Feed", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "FrontForum", 
+		{name: "FrontForum", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Comments", 
+		{name: "Comments", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "RecentPosts", 
+		{name: "RecentPosts", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "MiniRecentThreads", 
+		{name: "MiniRecentThreads", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "MiniActiveThreads", 
+		{name: "MiniActiveThreads", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "MiniRecentPosts", 
+		{name: "MiniRecentPosts", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Rate", 
+		{name: "Rate", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "RatedPages", 
+		{name: "RatedPages", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Gallery", 
+		{name: "Gallery", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "FlickrGallery", 
+		{name: "FlickrGallery", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Files", 
+		{name: "Files", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "Search", 
+		{name: "Search", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "SearchAll", 
+		{name: "SearchAll", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "SearchUsers", 
+		{name: "SearchUsers", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
 			description: `description`
 		},
-		{
-			name: "SiteChanges", 
+		{name: "SiteChanges", 
 			close: false, 
 			args: true, 
 			argsContent: [{name: '',value: ['']}], 
@@ -324,11 +283,10 @@ export function activate(context: vscode.ExtensionContext) {
 	]
 	const tags = [
 		[
-		{
-			name: 'size', 
+		{name: 'size', 
 			description: `文字サイズを変更する。  
 既定の単語(xx-small～xx-large)、もしくは1～5桁のpx,em,%値(10px,2em,300%など)。  
-\`\`\`wikidot  
+\`\`\`  
 [[size 200px]]  
 200pxのデッカい文字  
 [[/size]]  
@@ -337,28 +295,54 @@ export function activate(context: vscode.ExtensionContext) {
 			inline: true, 
 			args: true, 
 			argsContent: [
-				{
-					name: '', 
+				{name: '', 
 					value: ['xx-small', 'x-small', 'smaller', 'small', 	'large', 'larger', 'x-large', 'xx-large']
-				}]},
-		{
-			name: 'ul', 
-			description: `順序なしリスト(箇条書き)。liやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+				}]
+		},
+		{name: 'ul', 
+			description: `順序なしリスト(箇条書き)。liやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類\n\n
+\`\`\`
+[[ul]]  
+[[li]]content1[[/li]]  
+[[li]]content2[[/li]]  
+[[/ul]]  
+\`\`\``, 
+			inline: false,args: false
+		},
+		{name: 'li', 
+			description: `ulやolのようなリストの項目。ulやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類\n\n
+\`\`\`
+[[ul]]  
+[[li]]content1[[/li]]  
+[[li]]content2[[/li]]  
+[[/ul]]  
+\`\`\`
+`, 
 			inline: true,args: false
 		},
-		{
-			name: 'li', 
-			description: `ulやolのようなリストの項目。ulやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+		{name: 'ol', 
+			description: `順序つきリスト(箇条書き)。ulやliなどと組み合わせて使う。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類  
+\`\`\`
+[[ol]]  
+[[li]]content1[[/li]]  
+[[li]]content2[[/li]]  
+[[/ol]]  
+\`\`\``, 
 			inline: true,args: false
 		},
-		{
-			name: 'ol', 
-			description: `順序つきリスト(箇条書き)。ulやliなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
-			inline: true,args: false
-		},
-		{
-			name: 'collapsible', 
-			description: `テキストを折りたたむ。\n\nshow、hideはほぼ必須。\n\nhideLocation、foldedの設定は任意。\n\n入れ子にする場合はcolmodを使用のこと。`, 
+		{name: 'collapsible', 
+			description: `テキストを折りたたむ。  
+			show、hideはほぼ必須。  
+			hideLocation、foldedの設定は任意。  
+			入れ子にする場合はcolmodを使用のこと。  
+\`\`\`  
+[[collapsible show="+ クリックして展開" hide="- クリックして閉じる"]]  
+折りたたまれた文章  
+[[/collapsible]]  
+folded="no"を記入すると、デフォルトで開いた状態になる。  
+hideLocaionの初期値はtop  
+\`\`\``, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'show', 
@@ -371,16 +355,18 @@ export function activate(context: vscode.ExtensionContext) {
 			value: ['"yes"', '"no"']}
 			]
 		},
-		{
-			name: 'a', 
-			description: `[[a href="URL"]]Link text[[/a]]の形で使用。\n\n[[a_ href="URL"]]Link text[[/a]]のようにアンダースコアを挟むと改行と段落分けを防げる。\n\nhrefのほかに使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, target, typeの6種類`, 
+		{name: 'a', 
+			description: `[[a href="URL"]]Link text[[/a]]の形で使用。  
+			[[a_ href="URL"]]Link text[[/a]]のようにアンダースコアを挟むと改行と段落分けを防げる。  
+			hrefのほかに使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, target, typeの6種類`, 
 			inline: true, 
 			args: true, 
 			argsContent: [{name: 'href', 
-			value: ['"http://scp-jp.wikidot.com/example.link"']}]},
-		{
-			name: 'gallery', 
-			description: `複数の画像を表示する。\n\nviewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。`, 
+			value: ['"http://scp-jp.wikidot.com/example.link"']}]
+		},
+		{name: 'gallery', 
+			description: `複数の画像を表示する。  
+			viewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。`, 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -390,98 +376,174 @@ export function activate(context: vscode.ExtensionContext) {
 			value: ['"name"', '"name desc"', '"created_at"', '"created_at desc"']},
 			{name: 'viewer', 
 			value: ['"false"', '"no"', '"true"', '"yes"']}
-		]},
-		{
-			name: 'note', 
-			description: `ノート(既定のスタイルを持つエレメント)を挿入する。\n\n[[div class="wiki-note"]]\n\nこれと同じ。\n\n[[/div]]`, 
-			inline: true,args: false},
-		{
-			name: 'html', 
-			description: `htmlブロックを作成する。\n\nhtmlブロック内ではwikidot構文は解析されない代わりに、JSなどを動かせる。\n\n実際にはiframeで読み込まれる。CORS制約の関係でhtmlブロック外部に影響を及ぼすことはできない。`, 
-			inline: false,args: false},
-		{
-			name: 'code', 
-			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。\n\n対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。\n\n本拡張機能の選択肢も同様。`, 
+		]
+		},
+		{name: 'note', 
+			description: `ノート(既定のスタイルを持つエレメント)を挿入する。  
+			\`\`\`  
+			[[div class="wiki-note"]]  
+			これと同じ。  
+			[[/div]]  
+			\`\`\``, 
+			inline: true,args: false
+		},
+		{name: 'html', 
+			description: `htmlブロックを作成する。  
+			htmlブロック内ではwikidot構文は解析されない代わりに、JSなどを動かせる。  
+			実際にはiframeで読み込まれる。CORS制約の関係でhtmlブロック外部に影響を及ぼすことはできない。`, 
+			inline: false,args: false
+		},
+		{name: 'code', 
+			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。  
+			対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。  
+			本拡張機能の選択肢も同様。`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'type', 
-			value: ['"php"', '"html"', '"cpp"', '"css"', '"diff"', '"dtd"', '"java"', '"javascript"', '"perl"', '"python"', '"ruby"', '"xml"']}]},
-		{
-			name: 'table', 
-			description: `表を作成する。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+			value: ['"php"', '"html"', '"cpp"', '"css"', '"diff"', '"dtd"', '"java"', '"javascript"', '"perl"', '"python"', '"ruby"', '"xml"']}]
+		},
+		{name: 'table', 
+			description: `表を作成する。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
 			inline: false, 
-			args: false},
-		{
-			name: 'row', 
-			description: `表の行を定義する。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+			args: false
+		},
+		{name: 'row', 
+			description: `表の行を定義する。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
 			inline: false, 
-			args: false},
-		{
-			name: 'hcell', 
-			description: `見出しセル。wikidot構文の\|\|~ header\|\|に対応。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
+			args: false
+		},
+		{name: 'hcell', 
+			description: `見出しセル。wikidot構文の\|\|~ header\|\|に対応。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
 			inline: false, 
-			args: false},
-		{
-			name: 'cell', 
-			description: `普通のセル。wikidot構文の\|\| cell \|\|に対応。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
+			args: false
+		},
+		{name: 'cell', 
+			description: `普通のセル。wikidot構文の\|\| cell \|\|に対応。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
 			inline: false, 
-			args: false},
-		{
-			name: 'div', 
+			args: false
+		},
+		{name: 'div', 
 			description: `HTMLのdivと同じ。一行で書くと解析されない。  
-			\`\`\`wikidot  
-			[[div]]  
-			content  
-			[[/div]]  
-			\`\`\`
-			このように書く必要がある。`, 
+使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。  
+\`\`\`  
+[[div]]  
+content  
+[[/div]]  
+\`\`\`
+`, 
 			inline: false, 
-			args: false},
-		{
-			name: 'span', 
-			description: ``, 
+			args: false
+		},
+		{name: 'span', 
+			description: `HTMLのspanと同じ。一行で書いてもよい。  
+使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。
+\`\`\`  
+[[span]]content[[/span]]  
+\`\`\`
+`, 
 			inline: true, 
-			args: false},
-		{
-			name: 'math', 
-			description: ``, 
+			args: false
+		},
+		{name: 'math', 
+			description: `LaTeXを入力する。  
+typeは必須ではなく、\\begin{...}...\\end{...}の書き方でも同様の表現ができる。
+\`\`\`  
+[[math type="align" label]]  
+E = mc^2  
+[[/math]]  
+  
+[[math label2]]  
+\\begin{align}  
+E = mc^2  
+\\end{align}  
+[[/math]]  
+\`\`\`
+文中に数式を記述する場合は以下のように書ける。  
+\`\`\`  
+[[$ E=mc^2 $]]  
+\`\`\`
+`, 
 			inline: true, 
 			args: true, 
 			argsContent: [{name: 'label', 
-			value: ['"label1"']}]},
-		{
-			name: 'footnote', 
-			description: ``, 
+			value: ['"label"']},
+			{name: 'type', value: ['"align"', '"alignat"', '"aligned"', '"alignedat"', '"array"', '"Bmatrix"', '"bmatrix"', '"cases"', '"eqnarray"', '"equation"', '"gather"', '"gathered"', '"matrix"', '"multline"', '"pmatrix"', '"smallmatrix"', '"split"', '"subarray"', '"Vmatrix"', '"vmatrix"']}]
+		},
+		{name: 'footnote', 
+			description: `脚注を記入する。  
+途中での改行やwikidot構文の使用も可能。  
+\`\`\`  
+[[footnote]]  
+脚注の中身  
+[[/footnote]]  
+\`\`\`
+`, 
 			inline: true, 
-			args: false},
-		{
-			name: 'bibliography', 
-			description: ``, 
+			args: false
+		},
+		{name: 'bibliography', 
+			description: `参考文献リストを作成する。  
+titleは必須ではない。指定すると、bibliographyブロックのタイトルが設定したものになる。  
+\`\`\`  
+すごい理論((bibcite label))  
+[[bibliography title="任意のタイトル"]]  
+: label : 参考文献のソース  
+[[/bibliography]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'title', 
-			value: ['"custom-title"']}]},
-		{
-			name: 'embedvideo', 
-			description: ``, 
+			value: ['"custom-title"']}]
+		},
+		{name: 'embedvideo', 
+			description: `対応しているサイトの映像を埋め込む。  
+現在対応しているのは、Google VideoとYouTubeのみ。 
+HTMLのembedを使用できる。  
+\`\`\`  
+[[embedvideo]]  
+<embed arg="value"> </embed>  
+[[/embedvideo]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
-		{
-			name: 'embedaudio', 
-			description: ``, 
+		{name: 'embedaudio', 
+			description: `対応しているサイトの音声を埋め込む。  
+現在対応しているのは、Odeo.comのみ。  
+なお、このOdeo.comは2010年時点でサービス終了している。 
+HTMLのembedを使用できる。  
+\`\`\`  
+[[embedaudio]]  
+<embed arg="value"> </embed>  
+[[/embedaudio]]  
+\`\`\``, 
 			inline: false, 
 			args: false
 		},
-		{
-			name: 'embed', 
-			description: ``, 
+		{name: 'embed', 
+			description: `他サイトのコンテンツを埋め込める。  
+埋め込み可能なサービスのリストは[こちら](https://www.wikidot.com/doc:embedding)。  
+\`\`\`  
+[[embed]]  
+<script type="text/javascript" src="url-source"></script>  
+[[/embed]]  
+\`\`\``, 
 			inline: false, 
 			args: false
 		},
-		{
-			name: 'iframe', 
-			description: ``, 
+		{name: 'iframe', 
+			description: `他サイトのコンテンツを埋め込める。  
+必須なのはURL-sourceだけで、選択肢には無いがclass, styleも設定できる。  
+\`\`\`  
+[[iframe URL-source attr1="value1" attr2="value2"...]]  
+\`\`\`
+			`, 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -497,129 +559,215 @@ export function activate(context: vscode.ExtensionContext) {
 			{name: 'width', 
 			value: ['"XX"', '"XX%"']}, 
 			{name: 'scrolling', 
-			value: ['"yes"', '"no"']}, 
-			{name: 'class,style', value: ['']}
-		]},
-		{
-			name: 'iftags', 
-			description: ``, 
+			value: ['"yes"', '"no"']}
+		]
+		},
+		{name: 'iftags', 
+			description: `設置されたページに、指定したタグが含まれる、もしくは含まれない場合に内容を表示する。  
+			+tagは付与されていなければならないタグ  
+			-tagは付与されていてはいけないタグ  
+			記号無しの場合は列挙したうちの1つが入っていればよい。  
+\`\`\`  
+[[iftags tag1 tag2 +tag3 -tag4]]  
+content  
+[[/iftags]]  
+\`\`\`
+			`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: '', 
-			value: ["Tag-name"]}]},
-		{
-			name: 'tabview', 
-			description: ``, 
+			value: ["Tags"]}]
+		},
+		{name: 'tabview', 
+			description: `クリックで切り替え可能なタブ構文を設置する。  
+			[[tab]]構文と併用した場合のみ解析される。    
+\`\`\`  
+[[tabview]]  
+[[tab first-tab]]  
+Tab content  
+[[/tab]]  
+[[tab second-tab]]  
+Second content  
+[[/tab]]  
+[[/tabview]]  
+\`\`\``, 
 			inline: false, 
-			args: false},
-		{
-			name: 'tab', 
-			description: ``, 
+			args: false
+		},
+		{name: 'tab', 
+			description: `[[tabview]]構文の中に記述することで、タブを作成できる。  
+			[[tabview]]構文と併用した場合のみ解析される。  
+			タブの名前は任意の文字列に設定可能。  
+			ただし、class="className"のような属性として解釈される書き方は出来ない。  
+\`\`\`  
+[[tabview]]  
+[[tab first-tab]]  
+Tab content  
+[[/tab]]  
+[[tab second-tab]]  
+Second content  
+[[/tab]]  
+[[/tabview]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: '', 
-			value: ['tab-Name']}]},
-		],
+			value: ['tabName']}]
+		}],
 		[
-			{
-				name: 'toc',
-				inline: false,
-				args: false,
-				description: `toc`},
-			{
-				name: 'image',
-				inline: false,
-				args: true,
-				argsContent: [
-				{name: '',
-				inline: false,
-				value: ['URL','file-name','/page-name/filename',':first','flickr:photoid','flickr:photoid_secret']},
-				{name: 'link',
-				inline: false,
-				value: ['"any-link or anchor"']}, 
-				{name: 'alt',
-				inline: false,
-				value: ['"any alt-text"']}, 
-				{name: 'title',
-				inline: false,
-				value: ['"displayed when mouse hovered"']},
-				{name: 'width',
-				inline: false,
-				value: ['"XXpx"']},
-				{name: 'height',
-				inline: false,
-				value: ['"XXpx"']},
-				{name: 'style',
-				inline: false,
-				value: ['"CSS: any-syle"']},
-				{name: 'class',
-				inline: false,
-				value: ['"class"']},
-				{name: 'size',
-				inline: false,
-				value: ['"square"','"thumbnail"','"small"','"medium"','"medium640"','"large"','"original"']},
-			],
-				description: `image`},
-			{
-				name: 'eref',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: ['label']}],
-				description: `eref`},
-			{
-				name: 'footnoteblock',
-				inline: false,
-				args: false},
-			{
-				name: 'date',
-				inline: false,
-				args: true,
-				argsContent: [
-				{name: '',
-				inline: false,
-				value: ['"timestamp"']},
-				{name: 'format',
-				inline: false,
-				value: ['"format"']}
-			]},
-			{
-				name: 'include',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: [':site-name:page-name']}]},
-			{
-				name: 'file',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: ['"file-name"']}]},
-			{
-				name: 'user',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: ['user-name']}]},
-			{
-				name: 'social',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: ['"SNS"']}]},
-			{
-				name: 'button',
-				inline: false,
-				args: true,
-				argsContent: [{name: '',
-				inline: false,
-				value: ['words']}]},
-			]
+		{name: 'toc',
+			inline: false,
+			args: false,
+			description: `目次を作成する。  
+			f>, f<でフローを指定できる。  
+			\`\`\`  
+			[[toc]]  
+			([[f>toc]])  
+			([[f<toc]])  
+			\`\`\``
+		},
+		{name: 'image',
+			inline: false,
+			args: true,
+			argsContent: [
+			{name: '',
+			value: ['URL','file-name','/page-name/filename',':first','flickr:photoid','flickr:photoid_secret']},
+			{name: 'link',
+			value: ['"any-link or anchor"']}, 
+			{name: 'alt',
+			value: ['"any alt-text"']}, 
+			{name: 'title',
+			value: ['"displayed when mouse hovered"']},
+			{name: 'width',
+			value: ['"XXpx"']},
+			{name: 'height',
+			value: ['"XXpx"']},
+			{name: 'style',
+			value: ['"CSS: any-syle"']},
+			{name: 'class',
+			value: ['"class"']},
+			{name: 'size',
+			value: ['"square"','"thumbnail"','"small"','"medium"','"medium640"','"large"','"original"']},
+		],
+			description: `画像ブロックを設置する。  
+			必須なのは画像リンクのみ。  
+			imageの前に記号をつけることで、フローや画像の位置を指定できる。  
+			=: 中央揃え。  
+			>: 右寄せ。  
+			<: 左寄せ。  
+			f>: 右に寄せ、文字を左に流し込む。  
+			f<: 左に寄せ、文字を右に流し込む。  
+			\`\`\`  
+			[[image attached-file.png]]  
+			[[=image centered-image.png]]  
+			\`\`\``
+		},
+		{name: 'eref',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: ['label']}],
+			description: `[[math label]]の形でラベル付けした数式を呼び出す。  
+			基本的な見え方は脚注と同じ。  
+			\`\`\`  
+			[[math label1]]  
+			E=mc^2  
+			[[/math]]  
+			[[eref label1]]  
+			\`\`\``
+		},
+		{name: 'footnoteblock',
+			inline: false,
+			args: false, 
+			description: `脚注のリストを任意の位置に設置する。  
+			使用しなかった場合、脚注はページ最下部に表示される。  
+			\`[[footnoteblock]]\``
+		},
+		{name: 'date',
+			inline: false,
+			args: true,
+			argsContent: [
+			{name: '',
+			value: ['"timestamp"']},
+			{name: 'format',
+			value: ['"format"']}
+		],
+		description: `timestampはUNIX時間。  
+		formatは必須ではない。  
+		説明事項が多いため、下の例を参照のこと。  
+		想定される出力は丸括弧で囲ってある。  
+		\`\`\`  
+		[[date 900240900]](1998/07/12 12:55:00)  
+		[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
+		[[date 900240900 format="%d. %m. %Y|agohover"]](12. 07. 1998　マウスホバー時に何日前か表示される)  
+		[[date 900240900 format="現在から%O日前"]](現在から██days日前)  
+		[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
+		[[date 900240900 format="%e"]](12)  
+		[[date 900240900 format="%B"]](July)  
+		\`\`\``
+		},
+		{name: 'include',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: [':site-name:page-fullName']}],
+			description: `他ページの中身を全て埋め込む。  
+			同一wiki内のページは上の例、他wikiのページは下の例を参照のこと。  
+			\`\`\`  
+			[[include otherPage]]  
+			  
+			[[include :otherwiki:pageName]]  
+			\`\`\``
+			},
+		{name: 'file',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: ['"file-name"']}],
+			description: `そのページに添付されたファイルへのリンクを設置する。  
+			バーティカルバー(|)の後に任意のテキストを設定することで、リンクのテキストを変更可能。  
+			\`\`\`  
+			[[file fileName | クリックしてファイルを開く]]  
+			\`\`\``
+			},
+		{name: 'user',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: ['user-name']}],
+			description: `ユーザー情報のリンクを設置する。  
+			\`\`\`  
+			[[user userName]](名前のリンクのみ)  
+			[[\*user userName]](アイコンもつく)  
+			\``
+			},
+		{name: 'social',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: ['blinklist','blogmarks','connotea','del.icio.us','digg','fark','feedmelinks','furl','linkagogo','newsvine','netvouz','reddit','simpy','spurl','wists','yahoomyweb','facebook']}],
+			description: `SNSへのリンクを設置する。  
+			設置可能なSNSは以下の通り。カンマで区切ることで複数記述できる。  
+			\`\`\`  
+			[[social]](設置可能なSNSを全て表示する)  
+			[[social reddit,facebook]](一部のSNSのみ表示する)  
+			\`\`\``
+			},
+		{name: 'button',
+			inline: false,
+			args: true,
+			argsContent: [{name: '',
+			value: ['edit','edit-append','edit-sections','history','print','files','tags','source','backlinks','talk','delete','rename','site-tools','edit-meta','watchers','parent','lock-page','set-tags']}],
+			description: `ワンクリックで所定の動作を行うボタンを設置する。  
+			それぞれの機能はページ下部のオプションと同様。  
+			text(ボタンのテキスト)、class(CSSの指定等に使用)、style(CSSスタイル)がそれぞれ指定できる。  
+			\`\`\`  
+			[[button edit text="編集する"]]  
+			[[button set-tags +add-this-tag -remove-this text="タグを変更"]]  
+			\`\`\``
+			},
+		]
 	];
 
 	function getConfig() {
