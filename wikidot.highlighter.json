@@ -1,0 +1,18 @@
+{
+    "scopeName": "source.wikidot",
+    "patterns": [
+      {
+        "match": "\\[\\[.*?\\]\\]", 
+        "name": "keyword.control.wikidot"
+      },
+      {
+        "match": "\\*{2}([^*]+)\\*{2}",
+        "name": "markup.bold.wikidot"
+      },
+      {
+        "match": "//([^*]+)//",
+        "name": "markup.italic.wikidot"
+      }
+    ]
+  }
+  
