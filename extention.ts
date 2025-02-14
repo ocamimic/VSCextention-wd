@@ -1,3 +1,4 @@
+import { subscribe } from 'diagnostics_channel';
 import * as vscode from 'vscode';
 const configKey = 'ftmlACConfig';
 async function updateSettings() {
@@ -766,7 +767,49 @@ Second content
 			[[button edit text="編集する"]]  
 			[[button set-tags +add-this-tag -remove-this text="タグを変更"]]  
 			\`\`\``
+			}
+		],
+		[
+			{name: '#expr',
+				inline:true,
+				args:true,
+				argsContent:[{name: '',value: ['expression']}],
+				description: `入力した数式を解析し、その値を出力する。  
+				abs()、min()、max()の3種類が使用できる。
+				\`\`\`  
+				[[#expr 3 + 2]] => 5  
+				[[#expr abs(-1)]] => 1  
+				[[#expr min(4, 3, 7, 8)]] => 3  
+				[[#expr max(4, 3, 7, 8)]] => 8  
+				\`\`\``
 			},
+			{name: '#if',
+				inline:true,
+				args:true,
+				argsContent:[{name: '',value: ['true','false']},{name: '',value: ['if true']},{name: '',value: ['if false']}],
+				description: `第1引数にtrue/false、  
+				第2引数にtrueの場合の出力、  
+				第3引数にfalseの場合の出力。  
+				falseとして扱われるのはfalse(文字列)、null(文字列)、空白、0の4つのみ。  
+				それ以外はtrueとして扱われる。
+				\`\`\`
+				[[#if true | 犬 | 猫]] => 犬
+				[[#if false | 犬 | 猫]] => 猫
+				\`\`\`
+				`
+			},
+			{name: '#ifexpr',
+				inline:true,
+				args:true,
+				argsContent:[{name: '',value: ['true','false']},{name: '',value: ['if true']},{name: '',value: ['if false']}],
+				description: `第1引数に数式、  
+				第2引数にtrueの場合の出力、  
+				第3引数にfalseの場合の出力。  
+				\`\`\`
+				[[#ifexpr 1<2 | 1は2より小さい | 1は2より大きい]] => 1は2より小さい
+				\`\`\`
+				`
+			}
 		]
 	];
 
@@ -866,8 +909,8 @@ Second content
 			return new vscode.Hover(new vscode.MarkdownString(tag.description));
 		}
 	});
-	const SyntaxList = tags[0].concat(tags[1]); 
-	const CompleteTags = vscode.languages.registerCompletionItemProvider('wikidot', {
+	const SyntaxList = tags[0].concat(tags[1],tags[2]);
+	const completeTagsClose = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
 			const autoClose = tags[0].map(tag => {
 				const cursor = tag.inline ? '$0' : '\n$0\n';
@@ -885,7 +928,7 @@ Second content
 
 					snipArgs = ' ' + snipArgsArray.join(' ');
 					}
-					const BracketCount = (document.lineAt(position.line).text.substring(0, position.character).match(/\[{2}/g) || []).length;
+					const BracketCount = (document.lineAt(position.line).text.substring(0, position.character).match(/(\[{2})/g) || []).length;
 					var SnippetString = `[[${tag.name}${snipArgs}]]${cursor}[[/${tag.name}]]`;
 					if(BracketCount >= 1){
 						SnippetString = `${tag.name}${snipArgs}]]${cursor}[[/${tag.name}`;
@@ -898,6 +941,10 @@ Second content
 				return item;
 			}
 		);
+		return autoClose;
+	}});
+	const completeTagsNonClose = vscode.languages.registerCompletionItemProvider('wikidot', {
+		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
 			const nonClose = tags[1].map(tag => {
 			let snipArgs = '';
 			if(tag.args) {
@@ -924,12 +971,36 @@ Second content
 
 			return item;
 		});
-		return autoClose.concat(nonClose);
+		return nonClose;
 	}});
+	const completeTagsExpr = vscode.languages.registerCompletionItemProvider('wikidot', {
+		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+			const expr = tags[2].map(tag => {
+				let snipArgs = '';
+					const snipArgsArray: string[] = [];
+					tag.argsContent?.forEach((synArg, index) =>{
+						var options = `\${${index + 1}|${synArg.value.join(',')}|}`;
+							snipArgsArray.push(options);
+						});
+					snipArgs = ' ' + snipArgsArray.join(' | ');
+					const BracketCount = (document.lineAt(position.line).text.substring(0, position.character).match(/\[{2}/g) || []).length;
+					var SnippetString = `[[${tag.name}${snipArgs}]]$0`;
+					if(BracketCount >= 1){
+						SnippetString = `${tag.name}${snipArgs}$0`;
+				}
+				const item = new vscode.CompletionItem(`[[${tag.name}]]`, vscode.CompletionItemKind.Snippet);
+				item.insertText = new vscode.SnippetString(SnippetString);
+				item.documentation = new vscode.MarkdownString(tag.description || "Documentation not found.\n\nPlease contact the developer.");
+				item.documentation.isTrusted = true;
+				return item;
+			});
+		return expr;
+	}});
+
 	const hoverDoc = vscode.languages.registerHoverProvider('wikidot', {
 		provideHover(document: vscode.TextDocument, position: vscode.Position) {
 			const lineText = document.lineAt(position.line).text;
-			const regex = /\[\[\/?(\w+).*?\]\]/g;
+			const regex = /\[\[\/?([\w\#]+).*?\]\]/g;
 			let match;
 			let closestTag: string | null = null;
 			let closestStart = -1;
@@ -957,5 +1028,5 @@ Second content
 			return new vscode.Hover(description, new vscode.Range(position.line, closestStart, position.line, closestEnd));
 		}
 	});
-	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, CompleteTags, hoverDoc, moduleHoverDocs);
+	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, completeTagsClose, completeTagsNonClose, completeTagsExpr, hoverDoc, moduleHoverDocs);
 }
