@@ -44,8 +44,14 @@ export function activate(context: vscode.ExtensionContext) {
 		{name: "ListDrafts", 
 			close: false, 
 			args: true, 
-			argsContent: [{name: 'pagetype',value: ['"exists"','"notexists"']}], 
-			description: `description`
+			argsContent: [{name: 'pageType',value: ['"exists"','"notexists"']}], 
+			description: `そのサイトの、ドラフトが含まれるページのリストを表示する。  
+			pageTypeをexistsにすると存在するページ、  
+			notexistsにすると存在しないページ、  
+			指定しない場合は全てのドラフトを表示する。  
+			\`\`\`
+			[[module ListDrafts]]
+			\`\`\``
 		},
 		{name: "ListPages", 
 			close: true, 
