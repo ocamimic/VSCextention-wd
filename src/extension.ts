@@ -290,7 +290,7 @@ export function activate(context: vscode.ExtensionContext) {
 [[size 200px]]  
 200pxのデッカい文字  
 [[/size]]  
-\`\`\`
+\`\`\`  
 `, 
 			inline: true, 
 			args: true, 
@@ -300,8 +300,9 @@ export function activate(context: vscode.ExtensionContext) {
 				}]
 		},
 		{name: 'ul', 
-			description: `順序なしリスト(箇条書き)。liやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類\n\n
-\`\`\`
+			description: `順序なしリスト(箇条書き)。liやolなどと組み合わせて使う。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類  
+\`\`\`  
 [[ul]]  
 [[li]]content1[[/li]]  
 [[li]]content2[[/li]]  
@@ -310,20 +311,21 @@ export function activate(context: vscode.ExtensionContext) {
 			inline: false,args: false
 		},
 		{name: 'li', 
-			description: `ulやolのようなリストの項目。ulやolなどと組み合わせて使う。\n\n使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類\n\n
-\`\`\`
+			description: `ulやolのようなリストの項目。ulやolなどと組み合わせて使う。  
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類  
+\`\`\`  
 [[ul]]  
 [[li]]content1[[/li]]  
 [[li]]content2[[/li]]  
 [[/ul]]  
-\`\`\`
+\`\`\`  
 `, 
 			inline: true,args: false
 		},
 		{name: 'ol', 
 			description: `順序つきリスト(箇条書き)。ulやliなどと組み合わせて使う。  
 			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類  
-\`\`\`
+\`\`\`  
 [[ol]]  
 [[li]]content1[[/li]]  
 [[li]]content2[[/li]]  
@@ -356,9 +358,14 @@ hideLocaionの初期値はtop
 			]
 		},
 		{name: 'a', 
-			description: `[[a href="URL"]]Link text[[/a]]の形で使用。  
+			description: `リンクを設置する。  
 			[[a_ href="URL"]]Link text[[/a]]のようにアンダースコアを挟むと改行と段落分けを防げる。  
-			hrefのほかに使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, target, typeの6種類`, 
+			hrefのほかに使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, target, typeの6種類  
+			\`\`\`  
+			[[a href="https://example.com/hogehoge"]]hogehogeへ行く[[/a]]  
+			[[a_ href="https://example.com/piyopiyo"]]piypiyoはコチラ[[/a]]  
+			\`\`\`  
+			`, 
 			inline: true, 
 			args: true, 
 			argsContent: [{name: 'href', 
@@ -366,7 +373,16 @@ hideLocaionの初期値はtop
 		},
 		{name: 'gallery', 
 			description: `複数の画像を表示する。  
-			viewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。`, 
+			viewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。  
+			閉じタグを使用しない場合はページのファイルを表示する。  
+			\`\`\`  
+			[[gallery args]]  
+
+			[[gallery args]]  
+			: image-source1 size="..." order="..." ...  
+			: image-source2 size="..." order="..." ...  
+			[[/gallery]]  
+			\`\`\``, 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -380,23 +396,40 @@ hideLocaionの初期値はtop
 		},
 		{name: 'note', 
 			description: `ノート(既定のスタイルを持つエレメント)を挿入する。  
+			\`[[note]]Note content[[/note]]\`  
 			\`\`\`  
 			[[div class="wiki-note"]]  
 			これと同じ。  
 			[[/div]]  
 			\`\`\``, 
-			inline: true,args: false
+			inline: true,
+			args: false
 		},
 		{name: 'html', 
 			description: `htmlブロックを作成する。  
 			htmlブロック内ではwikidot構文は解析されない代わりに、JSなどを動かせる。  
-			実際にはiframeで読み込まれる。CORS制約の関係でhtmlブロック外部に影響を及ぼすことはできない。`, 
+			実際にはiframeで読み込まれる。CORS制約の関係でhtmlブロック外部に影響を及ぼすことはできない。  
+			\`\`\`  
+			[[html]]  
+			<div>...</div>  
+			<script>  
+			...  
+			</script>  
+			[[/html]]  
+			\`\`\``, 
 			inline: false,args: false
 		},
 		{name: 'code', 
 			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。  
 			対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。  
-			本拡張機能の選択肢も同様。`, 
+			本拡張機能の選択肢も同様。  
+			\`\`\`  
+			[[code type="CSS"]]  
+			.example {  
+			style: value;  
+			}  
+			[[/code]]  
+			\`\`\``, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'type', 
@@ -404,25 +437,106 @@ hideLocaionの初期値はtop
 		},
 		{name: 'table', 
 			description: `表を作成する。  
-			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。  
+			\`\`\`  
+			[[table]]  
+			[[row]]  
+			[[hcell]]  
+			Header1  
+			[[/hcell]]  
+			[[hcell]]  
+			Header2  
+			[[/hcell]]  
+			[[/row]]  
+			[[row]]  
+			[[cell]]  
+			Cell1  
+			[[/cell]]  
+			[[cell]]  
+			Cell2  
+			[[/cell]]  
+			[[/row]]  
+			[[table]]  
+			\`\`\`  
+			`, 
 			inline: false, 
 			args: false
 		},
 		{name: 'row', 
 			description: `表の行を定義する。  
-			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類`, 
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。  
+			\`\`\`  
+			[[table]]  
+			[[row]]  
+			[[hcell]]  
+			Header1  
+			[[/hcell]]  
+			[[hcell]]  
+			Header2  
+			[[/hcell]]  
+			[[/row]]  
+			[[row]]  
+			[[cell]]  
+			Cell1  
+			[[/cell]]  
+			[[cell]]  
+			Cell2  
+			[[/cell]]  
+			[[/row]]  
+			[[table]]  
+			\`\`\``, 
 			inline: false, 
 			args: false
 		},
 		{name: 'hcell', 
 			description: `見出しセル。wikidot構文の\|\|~ header\|\|に対応。  
-			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類。  
+			\`\`\`  
+			[[table]]  
+			[[row]]  
+			[[hcell]]  
+			Header1  
+			[[/hcell]]  
+			[[hcell]]  
+			Header2  
+			[[/hcell]]  
+			[[/row]]  
+			[[row]]  
+			[[cell]]  
+			Cell1  
+			[[/cell]]  
+			[[cell]]  
+			Cell2  
+			[[/cell]]  
+			[[/row]]  
+			[[table]]  
+			\`\`\``, 
 			inline: false, 
 			args: false
 		},
 		{name: 'cell', 
 			description: `普通のセル。wikidot構文の\|\| cell \|\|に対応。  
-			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類`, 
+			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類。  
+			\`\`\`  
+			[[table]]  
+			[[row]]  
+			[[hcell]]  
+			Header1  
+			[[/hcell]]  
+			[[hcell]]  
+			Header2  
+			[[/hcell]]  
+			[[/row]]  
+			[[row]]  
+			[[cell]]  
+			Cell1  
+			[[/cell]]  
+			[[cell]]  
+			Cell2  
+			[[/cell]]  
+			[[/row]]  
+			[[table]]  
+			\`\`\``, 
 			inline: false, 
 			args: false
 		},
