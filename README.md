@@ -1,5 +1,6 @@
 # VSCextention-ftml
-VSC向けwiki構文自動補完拡張機能。<br>
+VSC向けwiki構文自動補完拡張機能(**未完成**)。<br>
+<br>
 # 実装済み
 tsが不要な部分
 * \*\*Bold\*\*
