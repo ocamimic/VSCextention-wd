@@ -1,4 +1,3 @@
-import { subscribe } from 'diagnostics_channel';
 import * as vscode from 'vscode';
 const configKey = 'ftmlACConfig';
 async function updateSettings() {
