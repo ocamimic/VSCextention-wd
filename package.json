@@ -14,25 +14,25 @@
   "contributes": {
     "commands": [
       {
-        "command": "ftmlAC.config",
-        "title": "設定を変更する"
+        "command": "wikidotHelper.config",
+        "title": "設定を変更する(wikidot入力補完)"
       }
     ],
     "configuration": {
       "title": "カスタム設定",
       "properties": {
-        "ftmlACConfig.userName": {
+        "wikidotHelperConfig.userName": {
           "type": "string",
           "default": "DefaultUser",
           "description": "ユーザー名"
         },
-        "ftmlACConfig.isSCP": {
+        "wikidotHelperConfig.isSCP": {
           "type": "boolean",
           "default": false,
           "description": "SCPモードを有効にする"
         },
-        "ftmlACConfig.template": {
-          "type": "string",
+        "wikidotHelperConfig.template": {
+          "type": "file",
           "default": "",
           "description": "挿入されるテンプレート"
         }
@@ -50,7 +50,7 @@
       {
         "language": "wikidot",
         "scopeName": "source.wikidot",
-        "path": "./syntaxes/wikidot.tmLanguage.json"
+        "path": "./src/wikidot.tmLanguage.json"
       }
     ]
 },
