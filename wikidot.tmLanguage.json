@@ -1,18 +1,43 @@
 {
-    "scopeName": "source.wikidot",
-    "patterns": [
-      {
-        "match": "\\[\\[.*?\\]\\]", 
-        "name": "keyword.control.wikidot"
-      },
-      {
-        "match": "\\*{2}([^*]+)\\*{2}",
-        "name": "markup.bold.wikidot"
-      },
-      {
-        "match": "//([^*]+)//",
-        "name": "markup.italic.wikidot"
-      }
-    ]
-  }
+	"scopeName": "source.wikidot",
+	"patterns": [
+	  {"include": "#error"},
+	  {"include": "#modules"},
+	  {"include": "#include"},
+	  {"include": "#tags"},
+	  {"include": "#markdown"}
+	],
+	"repository": {
+		"tags": {
+		"patterns": [
+			{
+				"name": "comment.block.wikidot",
+				"begin": "\\[!--",
+				"end": "--\\]"
+			},
+			{
+				"name": "keyword.control.wikidot",
+				"match": "\\[\\[.*?\\]\\]"
+			}
+		]
+		},
+		"error": {
+			"patterns": [
+				{
+					"name": "invalid.illegal.wikidot",
+					"match": "[^\\n]+\\[\\[div(?:\\s+[^\\]]+)?\\]\\]|\\[\\[div(?:\\s+[^\\]]+)?\\]\\][^\\n\\s]+"
+                },
+				{
+					"name": "invalid.illegal.wikidot",
+					"match": "[^\\n]+\\[\\[module.+\\]\\]|\\[\\[module.+\\]\\][^\\n\\s]+"
+				},
+				{
+					"name": "invalid.illegal.wikidot",
+					"match": "[^\\n]+\\[\\[include\\s.+\\]\\]|\\[\\[include\\s.+\\]\\][^\\n\\s]+"
+				}
+			]
+		}
+	}
+}
+
   
