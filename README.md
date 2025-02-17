@@ -1,5 +1,6 @@
 # VSCextention-wd
 VSC向けwikidot構文自動補完拡張機能(**未完成**)。<br>
+現在日本語のみ対応、module周りは入力補完・ドキュメントが不完全
 <br>
 # 実装済み
 tsが不要な部分
