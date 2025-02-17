@@ -49,25 +49,71 @@ export function activate(context: vscode.ExtensionContext) {
 			pageTypeをexistsにすると存在するページ、  
 			notexistsにすると存在しないページ、  
 			指定しない場合は全てのドラフトを表示する。  
-			\`\`\`
-			[[module ListDrafts]]
-			\`\`\``
+\`\`\`
+[[module ListDrafts pageType="exists"]]
+\`\`\`
+`
 		},
 		{name: "ListPages", 
 			close: true, 
-			args: false, 
-			description: `description`
+			args: true,
+			argsContent: [
+				{name: 'order',value: ['"name"','"fullname"','"title"','"created_by"','"created_at"','"updated_at"','"size"','"rating"','"votes"','"revisions"','"comments"','"random"']},
+				{name: 'limit', value: ['"Any number"']},
+				{name: 'perPage', value: ['"number(n < 250)"']},
+				{name: 'reverse', value: ['"yes",""']},
+				{name: 'separate', value: ['"yes"','"no"']},
+				{name: 'wrapper', value: ['"yes"','"no"']},
+				{name: 'prependLine', value: ['"Any text before the ListPages"']},
+				{name: 'appendLine', value: ['"Any text after the ListPages"']}
+			], 
+			description: `指定したタグ、カテゴリ、ページ名などに属するページを表示する。  
+			ほぼすべての値の設定は必須ではない。絞り込みは必要。  
+			絞り込みオプションは多岐にわたるため、表を用意した。  
+## ページの絞り込み  
+| 項目 | 説明 |  
+| - | - |  
+| pagetype | 隠しページか普通のページか |  
+| category | カテゴリでの絞り込み |  
+| tags | タグでの絞り込み |  
+| parent | 親ページでの絞り込み |  
+| link_to | 特定のページへリンクしているページを選ぶ |  
+| created_at | 作成日での絞り込み。YYYY、YYYY.MMに対応 |  
+| updated_at | 編集日での絞り込み。YYYY、YYYY.MMに対応 |  
+| created_by | ページ作成者での絞り込み |  
+| rating | 現在のレートでの絞り込み(UV-DV) |  
+| votes | 現在のvote数(UV+DV) |  
+| offset | オフセット。nページ目を開く |  
+| range | ソートした状態で、現在のページより後/前にあるかなど |  
+| name | ページ名(カテゴリより後ろ) |  
+| fullname | ページの完全な名前(カテゴリ込み) |   
+
+			`
 		},
 		{name: "CountPages", 
 			close: true, 
 			args: false,  
-			description: `description`
+			description: `指定した条件に合致するページを数える。  
+# 絞り込み条件  
+| 項目 | 説明 |  
+| - | - |  
+| pagetype | 隠しページか普通のページか |  
+| category | カテゴリでの絞り込み |  
+| tags | タグでの絞り込み |  
+| parent | 親ページでの絞り込み |  
+| link_to | 特定のページへリンクしているページを選ぶ |  
+| created_at | 作成日での絞り込み。YYYY、YYYY.MMに対応 |  
+| created_by | ページ作成者での絞り込み |  
+| rating | 現在のレートでの絞り込み(UV-DV) |  
+| offset | オフセット。nページ目を開く |  
+| range | ソートした状態で、現在のページより後/前にあるかなど |   
+`
 		},
 		{name: "ListUsers", 
 			close: true, 
 			args: true, 
 			argsContent: [{name: 'users',value: ['"."']}], 
-			description: `description`
+			description: `現在ページを閲覧しているアカウントのユーザー名やIDを表示する。`
 		},
 		{name: "TagCloud", 
 			close: false, 
@@ -313,7 +359,8 @@ export function activate(context: vscode.ExtensionContext) {
 [[li]]content1[[/li]]  
 [[li]]content2[[/li]]  
 [[/ul]]  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: false,args: false
 		},
 		{name: 'li', 
@@ -336,7 +383,8 @@ export function activate(context: vscode.ExtensionContext) {
 [[li]]content1[[/li]]  
 [[li]]content2[[/li]]  
 [[/ol]]  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: true,args: false
 		},
 		{name: 'collapsible', 
@@ -350,7 +398,8 @@ export function activate(context: vscode.ExtensionContext) {
 [[/collapsible]]  
 folded="no"を記入すると、デフォルトで開いた状態になる。  
 hideLocaionの初期値はtop  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'show', 
@@ -367,10 +416,10 @@ hideLocaionの初期値はtop
 			description: `リンクを設置する。  
 			[[a_ href="URL"]]Link text[[/a]]のようにアンダースコアを挟むと改行と段落分けを防げる。  
 			hrefのほかに使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, target, typeの6種類  
-			\`\`\`  
-			[[a href="https://example.com/hogehoge"]]hogehogeへ行く[[/a]]  
-			[[a_ href="https://example.com/piyopiyo"]]piypiyoはコチラ[[/a]]  
-			\`\`\`  
+\`\`\`  
+[[a href="https://example.com/hogehoge"]]hogehogeへ行く[[/a]]  
+[[a_ href="https://example.com/piyopiyo"]]piypiyoはコチラ[[/a]]  
+\`\`\`  
 			`, 
 			inline: true, 
 			args: true, 
@@ -381,14 +430,14 @@ hideLocaionの初期値はtop
 			description: `複数の画像を表示する。  
 			viewerをfalse/noにすると、画像をクリックした際にページ遷移して拡大する。  
 			閉じタグを使用しない場合はページのファイルを表示する。  
-			\`\`\`  
-			[[gallery args]]  
-
-			[[gallery args]]  
-			: image-source1 size="..." order="..." ...  
-			: image-source2 size="..." order="..." ...  
-			[[/gallery]]  
-			\`\`\``, 
+\`\`\`  
+[[gallery args]]  
+[[gallery args]]  
+: image-source1 size="..." order="..." ...  
+: image-source2 size="..." order="..." ...  
+[[/gallery]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: true, 
 			argsContent: [
@@ -403,11 +452,12 @@ hideLocaionの初期値はtop
 		{name: 'note', 
 			description: `ノート(既定のスタイルを持つエレメント)を挿入する。  
 			\`[[note]]Note content[[/note]]\`  
-			\`\`\`  
-			[[div class="wiki-note"]]  
-			これと同じ。  
-			[[/div]]  
-			\`\`\``, 
+\`\`\`  
+[[div class="wiki-note"]]  
+これと同じ。  
+[[/div]]  
+\`\`\`
+`, 
 			inline: true,
 			args: false
 		},
@@ -415,27 +465,29 @@ hideLocaionの初期値はtop
 			description: `htmlブロックを作成する。  
 			htmlブロック内ではwikidot構文は解析されない代わりに、JSなどを動かせる。  
 			実際にはiframeで読み込まれる。CORS制約の関係でhtmlブロック外部に影響を及ぼすことはできない。  
-			\`\`\`  
-			[[html]]  
-			<div>...</div>  
-			<script>  
-			...  
-			</script>  
-			[[/html]]  
-			\`\`\``, 
+\`\`\`  
+[[html]]  
+<div>...</div>  
+<script>  
+...  
+</script>  
+[[/html]]  
+\`\`\`
+`, 
 			inline: false,args: false
 		},
 		{name: 'code', 
 			description: `コードブロック。type="lang"の形で言語を指定すると、自動的にハイライトされる。  
 			対応言語は[ドキュメント](https://www.wikidot.com/doc-wiki-syntax:code-blocks)の通り。  
 			本拡張機能の選択肢も同様。  
-			\`\`\`  
-			[[code type="CSS"]]  
-			.example {  
-			style: value;  
-			}  
-			[[/code]]  
-			\`\`\``, 
+\`\`\`  
+[[code type="CSS"]]  
+.example {  
+style: value;  
+}  
+[[/code]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: true, 
 			argsContent: [{name: 'type', 
@@ -444,105 +496,108 @@ hideLocaionの初期値はtop
 		{name: 'table', 
 			description: `表を作成する。  
 			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。  
-			\`\`\`  
-			[[table]]  
-			[[row]]  
-			[[hcell]]  
-			Header1  
-			[[/hcell]]  
-			[[hcell]]  
-			Header2  
-			[[/hcell]]  
-			[[/row]]  
-			[[row]]  
-			[[cell]]  
-			Cell1  
-			[[/cell]]  
-			[[cell]]  
-			Cell2  
-			[[/cell]]  
-			[[/row]]  
-			[[table]]  
-			\`\`\`  
-			`, 
+\`\`\`  
+[[table]]  
+[[row]]  
+[[hcell]]  
+Header1  
+[[/hcell]]  
+[[hcell]]  
+Header2  
+[[/hcell]]  
+[[/row]]  
+[[row]]  
+[[cell]]  
+Cell1  
+[[/cell]]  
+[[cell]]  
+Cell2  
+[[/cell]]  
+[[/row]]  
+[[table]]  
+\`\`\`  
+`, 
 			inline: false, 
 			args: false
 		},
 		{name: 'row', 
 			description: `表の行を定義する。  
 			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), styleの4種類。  
-			\`\`\`  
-			[[table]]  
-			[[row]]  
-			[[hcell]]  
-			Header1  
-			[[/hcell]]  
-			[[hcell]]  
-			Header2  
-			[[/hcell]]  
-			[[/row]]  
-			[[row]]  
-			[[cell]]  
-			Cell1  
-			[[/cell]]  
-			[[cell]]  
-			Cell2  
-			[[/cell]]  
-			[[/row]]  
-			[[table]]  
-			\`\`\``, 
+\`\`\`  
+[[table]]  
+[[row]]  
+[[hcell]]  
+Header1  
+[[/hcell]]  
+[[hcell]]  
+Header2  
+[[/hcell]]  
+[[/row]]  
+[[row]]  
+[[cell]]  
+Cell1  
+[[/cell]]  
+[[cell]]  
+Cell2  
+[[/cell]]  
+[[/row]]  
+[[table]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
 		{name: 'hcell', 
 			description: `見出しセル。wikidot構文の\|\|~ header\|\|に対応。  
 			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類。  
-			\`\`\`  
-			[[table]]  
-			[[row]]  
-			[[hcell]]  
-			Header1  
-			[[/hcell]]  
-			[[hcell]]  
-			Header2  
-			[[/hcell]]  
-			[[/row]]  
-			[[row]]  
-			[[cell]]  
-			Cell1  
-			[[/cell]]  
-			[[cell]]  
-			Cell2  
-			[[/cell]]  
-			[[/row]]  
-			[[table]]  
-			\`\`\``, 
+\`\`\`  
+[[table]]  
+[[row]]  
+[[hcell]]  
+Header1  
+[[/hcell]]  
+[[hcell]]  
+Header2  
+[[/hcell]]  
+[[/row]]  
+[[row]]  
+[[cell]]  
+Cell1  
+[[/cell]]  
+[[cell]]  
+Cell2  
+[[/cell]]  
+[[/row]]  
+[[table]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
 		{name: 'cell', 
 			description: `普通のセル。wikidot構文の\|\| cell \|\|に対応。  
 			使用可能な属性は、class, id, [data-*](https://developer.mozilla.org/ja/docs/Web/HTML/Global_attributes/data-*), style, colspan, rowspanの6種類。  
-			\`\`\`  
-			[[table]]  
-			[[row]]  
-			[[hcell]]  
-			Header1  
-			[[/hcell]]  
-			[[hcell]]  
-			Header2  
-			[[/hcell]]  
-			[[/row]]  
-			[[row]]  
-			[[cell]]  
-			Cell1  
-			[[/cell]]  
-			[[cell]]  
-			Cell2  
-			[[/cell]]  
-			[[/row]]  
-			[[table]]  
-			\`\`\``, 
+\`\`\`  
+[[table]]  
+[[row]]  
+[[hcell]]  
+Header1  
+[[/hcell]]  
+[[hcell]]  
+Header2  
+[[/hcell]]  
+[[/row]]  
+[[row]]  
+[[cell]]  
+Cell1  
+[[/cell]]  
+[[cell]]  
+Cell2  
+[[/cell]]  
+[[/row]]  
+[[table]]  
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
@@ -642,7 +697,8 @@ HTMLのembedを使用できる。
 [[embedaudio]]  
 <embed arg="value"> </embed>  
 [[/embedaudio]]  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
@@ -653,7 +709,8 @@ HTMLのembedを使用できる。
 [[embed]]  
 <script type="text/javascript" src="url-source"></script>  
 [[/embed]]  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
@@ -710,7 +767,8 @@ Tab content
 Second content  
 [[/tab]]  
 [[/tabview]]  
-\`\`\``, 
+\`\`\`
+`, 
 			inline: false, 
 			args: false
 		},
@@ -741,11 +799,12 @@ Second content
 			args: false,
 			description: `目次を作成する。  
 			f>, f<でフローを指定できる。  
-			\`\`\`  
-			[[toc]]  
-			([[f>toc]])  
-			([[f<toc]])  
-			\`\`\``
+\`\`\`  
+[[toc]]  
+([[f>toc]])  
+([[f<toc]])  
+\`\`\`
+`
 		},
 		{name: 'image',
 			inline: false,
@@ -778,10 +837,11 @@ Second content
 			<: 左寄せ。  
 			f>: 右に寄せ、文字を左に流し込む。  
 			f<: 左に寄せ、文字を右に流し込む。  
-			\`\`\`  
-			[[image attached-file.png]]  
-			[[=image centered-image.png]]  
-			\`\`\``
+\`\`\`  
+[[image attached-file.png]]  
+[[=image centered-image.png]]  
+\`\`\`
+`
 		},
 		{name: 'eref',
 			inline: false,
@@ -790,12 +850,13 @@ Second content
 			value: ['label']}],
 			description: `[[math label]]の形でラベル付けした数式を呼び出す。  
 			基本的な見え方は脚注と同じ。  
-			\`\`\`  
-			[[math label1]]  
-			E=mc^2  
-			[[/math]]  
-			[[eref label1]]  
-			\`\`\``
+\`\`\`  
+[[math label1]]  
+E=mc^2  
+[[/math]]  
+[[eref label1]]  
+\`\`\`
+`
 		},
 		{name: 'footnoteblock',
 			inline: false,
@@ -814,18 +875,19 @@ Second content
 			value: ['"format"']}
 		],
 		description: `timestampはUNIX時間。  
-		formatは必須ではない。  
-		説明事項が多いため、下の例を参照のこと。  
-		想定される出力は丸括弧で囲ってある。  
-		\`\`\`  
-		[[date 900240900]](1998/07/12 12:55:00)  
-		[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
-		[[date 900240900 format="%d. %m. %Y|agohover"]](12. 07. 1998　マウスホバー時に何日前か表示される)  
-		[[date 900240900 format="現在から%O日前"]](現在から██days日前)  
-		[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
-		[[date 900240900 format="%e"]](12)  
-		[[date 900240900 format="%B"]](July)  
-		\`\`\``
+formatは必須ではない。  
+説明事項が多いため、下の例を参照のこと。  
+想定される出力は丸括弧で囲ってある。  
+\`\`\`  
+[[date 900240900]](1998/07/12 12:55:00)  
+[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
+[[date 900240900 format="%d. %m. %Y|agohover"]](12. 07. 1998　マウスホバー時に何日前か表示される)  
+[[date 900240900 format="現在から%O日前"]](現在から██days日前)  
+[[date 900240900 format="%d. %m. %Y"]](12. 07. 1998)  
+[[date 900240900 format="%e"]](12)  
+[[date 900240900 format="%B"]](July)  
+\`\`\`  
+`
 		},
 		{name: 'include',
 			inline: false,
@@ -833,12 +895,13 @@ Second content
 			argsContent: [{name: '',
 			value: [':site-name:page-fullName']}],
 			description: `他ページの中身を全て埋め込む。  
-			同一wiki内のページは上の例、他wikiのページは下の例を参照のこと。  
-			\`\`\`  
-			[[include otherPage]]  
-			  
-			[[include :otherwiki:pageName]]  
-			\`\`\``
+同一wiki内のページは上の例、他wikiのページは下の例を参照のこと。  
+\`\`\`  
+[[include otherPage]]  
+  
+[[include :otherwiki:pageName]]  
+\`\`\`  
+			`
 			},
 		{name: 'file',
 			inline: false,
@@ -847,9 +910,10 @@ Second content
 			value: ['"file-name"']}],
 			description: `そのページに添付されたファイルへのリンクを設置する。  
 			バーティカルバー(|)の後に任意のテキストを設定することで、リンクのテキストを変更可能。  
-			\`\`\`  
-			[[file fileName | クリックしてファイルを開く]]  
-			\`\`\``
+\`\`\`  
+[[file fileName | クリックしてファイルを開く]]  
+\`\`\`
+`
 			},
 		{name: 'user',
 			inline: false,
@@ -857,10 +921,11 @@ Second content
 			argsContent: [{name: '',
 			value: ['user-name']}],
 			description: `ユーザー情報のリンクを設置する。  
-			\`\`\`  
-			[[user userName]](名前のリンクのみ)  
-			[[\*user userName]](アイコンもつく)  
-			\``
+\`\`\`  
+[[user userName]](名前のリンクのみ)  
+[[\*user userName]](アイコンもつく)  
+\`\`\`
+`
 			},
 		{name: 'social',
 			inline: false,
@@ -869,10 +934,11 @@ Second content
 			value: ['blinklist','blogmarks','connotea','del.icio.us','digg','fark','feedmelinks','furl','linkagogo','newsvine','netvouz','reddit','simpy','spurl','wists','yahoomyweb','facebook']}],
 			description: `SNSへのリンクを設置する。  
 			設置可能なSNSは以下の通り。カンマで区切ることで複数記述できる。  
-			\`\`\`  
-			[[social]](設置可能なSNSを全て表示する)  
-			[[social reddit,facebook]](一部のSNSのみ表示する)  
-			\`\`\``
+\`\`\`  
+[[social]](設置可能なSNSを全て表示する)  
+[[social reddit,facebook]](一部のSNSのみ表示する)  
+\`\`\`
+`
 			},
 		{name: 'button',
 			inline: false,
@@ -882,10 +948,11 @@ Second content
 			description: `ワンクリックで所定の動作を行うボタンを設置する。  
 			それぞれの機能はページ下部のオプションと同様。  
 			text(ボタンのテキスト)、class(CSSの指定等に使用)、style(CSSスタイル)がそれぞれ指定できる。  
-			\`\`\`  
-			[[button edit text="編集する"]]  
-			[[button set-tags +add-this-tag -remove-this text="タグを変更"]]  
-			\`\`\``
+\`\`\`  
+[[button edit text="編集する"]]  
+[[button set-tags +add-this-tag -remove-this text="タグを変更"]]  
+\`\`\`
+`
 			}
 		],
 		[
@@ -895,12 +962,13 @@ Second content
 				argsContent:[{name: '',value: ['expression']}],
 				description: `入力した数式を解析し、その値を出力する。  
 				abs()、min()、max()の3種類が使用できる。
-				\`\`\`  
-				[[#expr 3 + 2]] => 5  
-				[[#expr abs(-1)]] => 1  
-				[[#expr min(4, 3, 7, 8)]] => 3  
-				[[#expr max(4, 3, 7, 8)]] => 8  
-				\`\`\``
+\`\`\`  
+[[#expr 3 + 2]] => 5  
+[[#expr abs(-1)]] => 1  
+[[#expr min(4, 3, 7, 8)]] => 3  
+[[#expr max(4, 3, 7, 8)]] => 8  
+\`\`\`
+`
 			},
 			{name: '#if',
 				inline:true,
@@ -911,11 +979,11 @@ Second content
 				第3引数にfalseの場合の出力。  
 				falseとして扱われるのはfalse(文字列)、null(文字列)、空白、0の4つのみ。  
 				それ以外はtrueとして扱われる。
-				\`\`\`
-				[[#if true | 犬 | 猫]] => 犬
-				[[#if false | 犬 | 猫]] => 猫
-				\`\`\`
-				`
+\`\`\`
+[[#if true | 犬 | 猫]] => 犬
+[[#if false | 犬 | 猫]] => 猫
+\`\`\`
+`
 			},
 			{name: '#ifexpr',
 				inline:true,
@@ -924,10 +992,10 @@ Second content
 				description: `第1引数に数式、  
 				第2引数にtrueの場合の出力、  
 				第3引数にfalseの場合の出力。  
-				\`\`\`
-				[[#ifexpr 1<2 | 1は2より小さい | 1は2より大きい]] => 1は2より小さい
-				\`\`\`
-				`
+\`\`\`
+[[#ifexpr 1<2 | 1は2より小さい | 1は2より大きい]] => 1は2より小さい
+\`\`\`
+`
 			}
 		]
 	];
@@ -1007,17 +1075,17 @@ Second content
 				}
 				const item = new vscode.CompletionItem(`[[module ${module.name}]]`, vscode.CompletionItemKind.Snippet);
 				item.insertText = new vscode.SnippetString(SnippetString);
-				item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
-				item.documentation.isTrusted = true;
+				//item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
+				//item.documentation.isTrusted = true;
 				return item
 			}
 		)
 	}});
-	const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
+	/*const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
 		provideHover(document: vscode.TextDocument, position: vscode.Position) {
 			const lineText = document.lineAt(position.line).text;
-			const regexp = /\[\[\/?module\s(\w+).*?\]\]/g;
-			const match = lineText.match(regexp)
+			const regexp = /\[\[module\s(\w+)(.*)?\]\]/;
+			const match = lineText.match(regexp);
 			if(!match){
 				return;
 			}
@@ -1027,7 +1095,7 @@ Second content
 			}
 			return new vscode.Hover(new vscode.MarkdownString(tag.description));
 		}
-	});
+	});*/
 	const SyntaxList = tags[0].concat(tags[1],tags[2]);
 	const completeTagsClose = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
@@ -1147,5 +1215,5 @@ Second content
 			return new vscode.Hover(description, new vscode.Range(position.line, closestStart, position.line, closestEnd));
 		}
 	});
-	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, completeTagsClose, completeTagsNonClose, completeTagsExpr, hoverDoc, moduleHoverDocs);
+	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, completeTagsClose, completeTagsNonClose, completeTagsExpr, hoverDoc, /*moduleHoverDocs*/);
 }
