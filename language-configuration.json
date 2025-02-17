@@ -1,77 +1,45 @@
 {
-  "name": "ftml-autocompletion",
-  "displayName": "ftml helper",
-  "description": "Complete FTML automatically.",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.96.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "ftmlAC.config",
-        "title": "設定を変更する"
-      }
-    ],
-    "configuration": {
-      "title": "カスタム設定",
-      "properties": {
-        "ftmlACConfig.userName": {
-          "type": "string",
-          "default": "DefaultUser",
-          "description": "ユーザー名"
-        },
-        "ftmlACConfig.isSCP": {
-          "type": "boolean",
-          "default": false,
-          "description": "SCPモードを有効にする"
-        },
-        "ftmlACConfig.template": {
-          "type": "string",
-          "default": "",
-          "description": "挿入されるテンプレート"
-        }
-      }
+    "wordPattern": "[#]?[a-zA-Z0-9_]+",
+    "comments": {
+      "blockComment": ["[!--", "--]"]
     },
-    "languages": [
-    {
-      "id": "wikidot",
-      "extensions": [".ftml",".wd",".wikidot",".wj",".wikijump"],
-      "aliases": ["Wikidot"],
-      "configuration": "./language-configuration.json"
-    }
-  ],
-  "grammars": [
-      {
-        "language": "wikidot",
-        "scopeName": "source.wikidot",
-        "path": "./syntaxes/wikidot.tmLanguage.json"
-      }
+    "brackets": [
+      ["{","}"],
+      ["[", "]"],
+      ["[[", "]]"],
+      ["[[[","]]]"],
+      ["(", ")"],
+      ["%","%"],
+      ["%%","%%"]
+    ],
+    "autoClosingPairs": [
+        ["**", "**"],
+        ["//", "//"],
+        ["{{", "}}"],
+        ["@@", "@@"],
+        ["__", "__"],
+        ["--", "--"],
+        [",,",",,"],
+        ["^^","^^"],
+        ["[", "]"],
+        ["[[", "]]"],
+        ["[[[","]]]"],
+        ["%%","%%"],
+        ["[!--", "--]"],
+        ["[[$", "$]]"],
+        [": ", " : "]
+    ],
+    "autoCloseBefore": ";:.,=}])>` \n\t",
+    "surroundingPairs": [
+        ["*", "*"],
+        ["/", "/"],
+        ["{", "}"],
+        ["@", "@"],
+        ["_", "_"],
+        ["-", "-"],
+        [",",","],
+        ["^","^"],
+        ["[","]"]
     ]
-},
-  "main": "./out/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.96.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
-  }
 }
+  
