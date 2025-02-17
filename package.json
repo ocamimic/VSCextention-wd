@@ -1,7 +1,7 @@
 {
-  "name": "ftml-autocompletion",
-  "displayName": "ftml helper",
-  "description": "Complete FTML automatically.",
+  "name": "wikidot-autocompletion",
+  "displayName": "wikidotSyntax helper",
+  "description": "completes wikidot syntaxes.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -45,7 +45,14 @@
       "aliases": ["Wikidot"],
       "configuration": "./language-configuration.json"
     }
-  ]
+  ],
+  "grammars": [
+      {
+        "language": "wikidot",
+        "scopeName": "source.wikidot",
+        "path": "./syntaxes/wikidot.tmLanguage.json"
+      }
+    ]
 },
   "main": "./out/extension.js",
   "scripts": {
