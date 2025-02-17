@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-const configKey = 'ftmlACConfig';
+const configKey = 'wikidotHelperConfig';
 async function updateSettings() {
     const config = vscode.workspace.getConfiguration(configKey);
     const choices = [
@@ -1008,7 +1008,7 @@ formatは必須ではない。
             template: config.get('template', '')
         };
     }
-	let cmdcfg = vscode.commands.registerCommand('ftmlAC.config', updateSettings);
+	let cmdcfg = vscode.commands.registerCommand('wikidotHelper.config', updateSettings);
 	let templateWriter = vscode.languages.registerCompletionItemProvider({scheme: 'file', language: 'wikidot'}, {
         provideCompletionItems(document, position) {
 			const lineText = document.lineAt(position.line).text;
@@ -1025,7 +1025,7 @@ formatは必須ではない。
 				template = `**アイテム番号:** SCP-XXXX-JP\n\n**オブジェクトクラス:** \n\n**特別収容プロトコル:** \n\n**説明:** `;
 			} else {
 				title = '作品のタイトル';
-				template = config.template;
+				template = new Object(config.template);
 			}
 
 			const snippet = new vscode.SnippetString(`[[include credit:start]]\n**タイトル:** ${title}\n**著者:** [[*user ${config.userName}]]\n**作成年:** ${year}\n[[include credit:end]]\n\n${template}`);
