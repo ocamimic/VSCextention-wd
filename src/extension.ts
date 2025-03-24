@@ -16,7 +16,6 @@ async function updateSettings() {
     }
 
     let newValue: string | boolean | undefined;
-
     if (selectedSetting.type === 'boolean') {
         const boolChoice = await vscode.window.showQuickPick(['true', 'false'], {
             placeHolder: `現在の値: ${config.get(selectedSetting.key)}`
@@ -117,40 +116,74 @@ export function activate(context: vscode.ExtensionContext) {
 		},
 		{name: "TagCloud", 
 			close: false, 
-			args: false, 
-			description: `description`
+			args: true,
+			argsContent: [{name: 'maxFontSize', value: ['"any length in unit of px, pt, em, and %"']},{name: 'minFontSize', value: ['"any length in unit of px, pt, em, and %"']},{name: 'maxColor', value: ['"RRR,GGG,BBB(0~255)"']},{name: 'minColor', value: ['"RRR,GGG,BBB(0~255)"']},{name: 'limit', value: ['any number']},{name: 'target', value: ['"name of pege, opened when tags are clicked."']},{name: 'category', value: ['"any category"']},{name: 'showHidden', value: ['"if true or yes, hidden tags will be displayed "']},{name: 'urlAttrPrefix', value: ['"any string"']},{name: 'skipCategoryFromUrl', value: ['"if true or yes, \"category\" will be removed from URLs of tags."']}],
+			description: `指定したカテゴリなどに付与されているタグの一覧を表示する。  
+全てのオプションは必須ではない。  
+以下のような書き方をすれば任意の大きさで3D表示できるが、flashを使用しているため非推奨。  
+\`\`\`
+[[module TagCloud mode="3d" width="500px" height="500px"]]  
+\`\`\`  
+`
 		},
 		{name: "PageCalendar", 
 			close: false, 
-			args: false, 
-			description: `description`
+			args: true, 
+			argsContent: [{name: 'category', value: ['"any string"','"@URL"']},
+			{name: 'tags', value: ['"any string"','"@URL"']},
+			{name: 'startPage', value: ['"any string"']},
+			{name: 'urlAttrPrefix', value: ['"any string"']}],
+			description: `設定したカテゴリ・タグの年ごとのページ数を表示する。  
+例えば、次のような例の場合、hogeカテゴリに属し、hugaタグを持ち、piyoタグを持たないページを数える。  
+2024(1)などと表示されるリンクをクリックすると、hogera/hogehoge_date/2024に飛ぶ。  
+\`\`\`
+[[module PageCalendar category="hoge" tags="+huga -piyo" startPage="hogera" urlAtrPrefix="hogehoge"]]
+\`\`\``
 		},
 		{name: "PageTree", 
 			close: false, 
-			args: false, 
-			description: `description`
+			args: true, 
+			argsContent: [{name: 'root',value: ['"any string"']}, {name: 'showRoot', value: ['"true"', '"false"']}, {name: 'depth', value: ['"n"']}],
+			description: `ページの親子関係を表示する。
+rootで基準とするページ、showRootでrootを表示するか否かを指定する。
+depthが1のときはrootの子のみ、2のときは孫まで表示する。
+\`\`\`
+[[module PageTree root="parent" showRoot="true/false"]]
+\`\`\``
 		},
 		{name: "Backlinks", 
 			close: false, 
 			args: false, 
-			description: `description`
+			description: `バックリンクを表示する。ページ最下部のオプションで表示するものと同様。
+\`\`\`
+[[module Backlinks]]
+\`\`\``
 		},
 		{name: "WantedPages", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `存在しないにも拘わらずリンクされているページを表示する。
+\`\`\`
+[[module WantedPages]]
+\`\`\``
 		},
 		{name: "OrphanedPages", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `バックリンクの無いページを表示する。
+\`\`\`
+[[module OrphanedPages]]
+\`\`\``
 		},
 		{name: "Categories", 
 			close: false, 
-			args: false, 
-			description: `description`
+			args: true,
+			argsContent: [{name: 'includeHidden', value: ['"true"', '"false"']}],
+			description: `カテゴリ名と、そのカテゴリのページを一覧表示する。
+includeHiddenがtrueのとき、隠しカテゴリも表示する。初期値はfalse。
+\`\`\`
+[[modue Categories includeHidden="true"]]
+\`\`\``
 		},
 		{name: "Watchers", 
 			close: true, 
@@ -897,9 +930,9 @@ formatは必須ではない。
 			description: `他ページの中身を全て埋め込む。  
 同一wiki内のページは上の例、他wikiのページは下の例を参照のこと。  
 \`\`\`  
-[[include otherPage]]  
+[[include pagename]]  
   
-[[include :otherwiki:pageName]]  
+[[include :otherwiki:pagename]]  
 \`\`\`  
 			`
 			},
@@ -1075,13 +1108,13 @@ formatは必須ではない。
 				}
 				const item = new vscode.CompletionItem(`[[module ${module.name}]]`, vscode.CompletionItemKind.Snippet);
 				item.insertText = new vscode.SnippetString(SnippetString);
-				//item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
-				//item.documentation.isTrusted = true;
+				item.documentation = new vscode.MarkdownString(module.description || "Documentation not found.\n\nPlease contact the developer.");
+				item.documentation.isTrusted = true;
 				return item
 			}
 		)
 	}});
-	/*const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
+	const moduleHoverDocs = vscode.languages.registerHoverProvider('wikidot', {
 		provideHover(document: vscode.TextDocument, position: vscode.Position) {
 			const lineText = document.lineAt(position.line).text;
 			const regexp = /\[\[module\s(\w+)(.*)?\]\]/;
@@ -1095,7 +1128,7 @@ formatは必須ではない。
 			}
 			return new vscode.Hover(new vscode.MarkdownString(tag.description));
 		}
-	});*/
+	});
 	const SyntaxList = tags[0].concat(tags[1],tags[2]);
 	const completeTagsClose = vscode.languages.registerCompletionItemProvider('wikidot', {
 		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
@@ -1215,5 +1248,5 @@ formatは必須ではない。
 			return new vscode.Hover(description, new vscode.Range(position.line, closestStart, position.line, closestEnd));
 		}
 	});
-	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, completeTagsClose, completeTagsNonClose, completeTagsExpr, hoverDoc, /*moduleHoverDocs*/);
+	context.subscriptions.push(dict, cmdcfg, templateWriter, moduleCompletion, completeTagsClose, completeTagsNonClose, completeTagsExpr, hoverDoc, moduleHoverDocs);
 }
