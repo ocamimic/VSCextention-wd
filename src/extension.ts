@@ -1,3 +1,4 @@
+import { log } from 'console';
 import * as vscode from 'vscode';
 const configKey = 'wikidotHelperConfig';
 async function updateSettings() {
@@ -186,34 +187,48 @@ includeHiddenがtrueのとき、隠しカテゴリも表示する。初期値は
 \`\`\``
 		},
 		{name: "Watchers", 
-			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			close: false, 
+			args: true, 
+			argsContent: [{name: 'noActions',value: ['"true"', '"false"']}], 
+			description: `ページが編集されたときに通知を受け取るユーザーを表示する。
+\`\`\`
+[[module Watchers noAction="true"]]
+\`\`\``
 		},
 		{name: "Members", 
-			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			close: false, 
+			args: true, 
+			argsContent: [{name: 'group',value: ['"members"','"admins"','"moderators"']},{name: 'showSince',value: ['"no"','"yes"']},{name: 'order',value: ['"userId"','"userIdDesc"','"joined"','"joinedDesc"','"name"','"nameDesc"']}], 
+			description: `サイトのメンバーを表示する。
+groupは一般メンバー、管理者、モデレーターでの絞り込み、showSinceはサイト参加日を表示する。
+showSince="yes"はgroup="members"のときのみ有効。
+\`\`\`
+[[module Members group="admins" order="name"]]
+\`\`\``
 		},
 		{name: "Join", 
-			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			close: false, 
+			args: true, 
+			argsContent: [{name: 'button',value: ['"Button text"']}, {name: 'class',value: ['"CSS-class"']}], 
+			description: `サイト参加ボタンを作成する。
+buttonで指定したテキストがボタンに表示される。
+\`\`\`
+[[module Join button="サイトに参加！" class="cuteJoinButton"]]
+\`\`\``
 		},
 		{name: "SendInvitations", 
-			close: true, 
+			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `サイトへの招待を送信する。
+現在は使えない。`
 		},
 		{name: "WhoInvited", 
-			close: true, 
+			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `ユーザーの名前を入力すると、どうやってそのメンバーがサイトに参加したかがわかる。
+\`\`\`
+[[module WhoInvited]]
+\`\`\``
 		},
 		{name: "CSS", 
 			close: true, 
@@ -932,7 +947,7 @@ formatは必須ではない。
 \`\`\`  
 [[include pagename]]  
   
-[[include :otherwiki:pagename]]  
+[[include :wikiname:pagename]]  
 \`\`\`  
 			`
 			},
@@ -1032,7 +1047,6 @@ formatは必須ではない。
 			}
 		]
 	];
-
 	function getConfig() {
         const config = vscode.workspace.getConfiguration(configKey);
         return {
