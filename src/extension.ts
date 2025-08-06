@@ -327,16 +327,20 @@ buttonで指定したテキストがボタンに表示される。
 			description: `description`
 		},
 		{name: "Rate", 
-			close: true, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			close: false, 
+			args: false, 
+			description: `ページを評価する。
+1~5個の星で評価する設定の場合は閉じタグ必須となる。`
 		},
 		{name: "RatedPages", 
-			close: true, 
+			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'category',  value: ['"any category"']},{name: 'order',  value: ['"date-created-asc"','"date-created-desc"','"rating-asc"','"rating-desc"']},{name: 'minRating',  value: ['"integer"']},{name: 'maxRating',  value: ['"integer"']},{name: 'limit',  value: ['"integer"']},{name: 'comments',  value: ['"yes"']}], 
+			description: `評価の高いページを表示する。
+オプションは全て任意。
+\`\`\`
+[[module RatedPages]]
+\`\`\``
 		},
 		{name: "Gallery", 
 			close: true, 
@@ -376,9 +380,12 @@ buttonで指定したテキストがボタンに表示される。
 		},
 		{name: "SiteChanges", 
 			close: false, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			args: false, 
+			description: `ページの編集やタグの追加など、広義の"ページ編集"を表示する。
+フォーラムへの投稿は含まれない。
+\`\`\`
+[[module SiteChanges]]
+\`\`\``
 		}
 	]
 	const tags = [
@@ -1047,6 +1054,13 @@ formatは必須ではない。
 			}
 		]
 	];
+var countShinchoku = 0;
+modules.forEach(args => {
+	if(args.description != "description") {
+		countShinchoku++
+	}
+})
+console.log(`${modules.length}個中${countShinchoku}個終わってる`)
 	function getConfig() {
         const config = vscode.workspace.getConfiguration(configKey);
         return {
