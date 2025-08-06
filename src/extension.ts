@@ -155,7 +155,7 @@ depthが1のときはrootの子のみ、2のときは孫まで表示する。
 		{name: "Backlinks", 
 			close: false, 
 			args: false, 
-			description: `バックリンクを表示する。ページ最下部のオプションで表示するものと同様。
+			description: `バックリンクを表示する。ページ最下部のオプションから表示するものと同様。
 \`\`\`
 [[module Backlinks]]
 \`\`\``
@@ -232,14 +232,32 @@ buttonで指定したテキストがボタンに表示される。
 		},
 		{name: "CSS", 
 			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			args: true, 
+			argsContent: [{name: 'show',value: ['"true"', '"false"']}, {name: 'disable', value: ['"true"', '"false"']}], 
+			description: `ページのCSSを自由に記述できる。
+変数のshow、disableはどちらもデフォルトでfalse。
+show="true"の場合、[[code type="css"]][[/code]]でコードを囲ったものと同様に表示される。
+disable="true"の場合、モジュール内のCSSが適用されない。
+\`\`\`
+[[module CSS show="true"]]
+.red {
+    color: red;
+}
+[[/module]]
+\`\`\``
 		},
 		{name: "NewPage", 
 			close: true, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [{name:'category',value: ['"any category name"']},
+			{name:'template',value: ['']},
+			{name:'size',value: ['']},
+			{name:'button',value: ['']},
+			{name:'format',value: ['']},
+			{name:'tags',value: ['']},
+			{name:'parent',value: ['']},
+			{name:'mode',value: ['']},
+			{name:'goTo',value: ['']}], 
 			description: `description`
 		},
 		{name: "Clone", 
