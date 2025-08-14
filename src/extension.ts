@@ -93,6 +93,7 @@ export function activate(context: vscode.ExtensionContext) {
 		{name: "CountPages", 
 			close: true, 
 			args: false,  
+			argsContent: [],
 			description: `指定した条件に合致するページを数える。  
 # 絞り込み条件  
 | 項目 | 説明 |  
@@ -155,6 +156,7 @@ depthが1のときはrootの子のみ、2のときは孫まで表示する。
 		{name: "Backlinks", 
 			close: false, 
 			args: false, 
+			argsContent: [],
 			description: `バックリンクを表示する。ページ最下部のオプションから表示するものと同様。
 \`\`\`
 [[module Backlinks]]
@@ -163,6 +165,7 @@ depthが1のときはrootの子のみ、2のときは孫まで表示する。
 		{name: "WantedPages", 
 			close: false, 
 			args: false, 
+			argsContent: [],
 			description: `存在しないにも拘わらずリンクされているページを表示する。
 \`\`\`
 [[module WantedPages]]
@@ -171,6 +174,7 @@ depthが1のときはrootの子のみ、2のときは孫まで表示する。
 		{name: "OrphanedPages", 
 			close: false, 
 			args: false, 
+			argsContent: [],
 			description: `バックリンクの無いページを表示する。
 \`\`\`
 [[module OrphanedPages]]
@@ -305,14 +309,14 @@ noUi="true"の場合はページのURL末尾に\`?theme_url=https://example.com/
 		{name: "MailForm", 
 			close: true, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [], 
 			description: `メールフォームを設置する。
 機能が多岐にわたるため、詳細は[ドキュメント](https://www.wikidot.com/doc-modules:mailform-module)を参照`
 		},
 		{name: "PetitionAdmin", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [], 
 			description: `申請の受付フォームを作成・管理する。
 取得する情報は名前、住所、コメントなど`
 		},
@@ -335,7 +339,7 @@ scp-jp-sandbox3.wikidot.com
 		{name: "FeaturedSite", 
 			close: true, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [], 
 			description: `サイトを1つだけ、大きく表示する。
 \`\`\`
 [[module FeaturedSite]]
@@ -436,7 +440,7 @@ feed属性を指定することで、RSS配信もできる。`
 		{name: "Files", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [], 
 			description: `ページに添付されたファイルを全て表示する。`
 		},
 		{name: "Search", 
@@ -448,18 +452,19 @@ feed属性を指定することで、RSS配信もできる。`
 		{name: "SearchAll", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [], 
 			description: `wikidot上の全てのページを検索する。`
 		},
 		{name: "SearchUsers", 
 			close: false, 
 			args: false, 
-			argsContent: [{name: '',value: ['']}], 
+			argsContent: [],
 			description: `ユーザーをメールアドレス、ニックネーム、本名などから検索する。`
 		},
 		{name: "SiteChanges", 
 			close: false, 
 			args: false, 
+			argsContent: [],
 			description: `ページの編集やタグの追加など、広義の"ページ編集"を表示する。
 フォーラムへの投稿は含まれない。
 \`\`\`
