@@ -247,30 +247,53 @@ disable="true"の場合、モジュール内のCSSが適用されない。
 \`\`\``
 		},
 		{name: "NewPage", 
-			close: true, 
+			close: false, 
 			args: false, 
-			argsContent: [{name:'category',value: ['"any category name"']},
-			{name:'template',value: ['']},
-			{name:'size',value: ['']},
-			{name:'button',value: ['']},
-			{name:'format',value: ['']},
-			{name:'tags',value: ['']},
-			{name:'parent',value: ['']},
-			{name:'mode',value: ['']},
-			{name:'goTo',value: ['']}], 
-			description: `description`
+			argsContent: [{name:'category',value: ['"カテゴリ名"']},
+			{name:'template',value: ['"テンプレートページ"']},
+			{name:'size',value: ['"正の整数"']},
+			{name:'button',value: ['"ボタンに表示するテキスト"']},
+			{name:'format',value: ['"有効な正規表現"']},
+			{name:'tags',value: ['"スペース区切りのタグ"']},
+			{name:'parent',value: ['"ページかカテゴリの名前"']},
+			{name:'mode',value: ['"edit"', '"save-and-refresh"', '"save-and-go"']},
+			{name:'goTo',value: ['"ページ名"']}], 
+			description: `フォームに入力した名前でページを作る。
+全ての変数は任意であり、省略可能
+| 項目 | 説明 |  
+| - | - |  
+| category | 作成したページが属するカテゴリ |
+| template | そのページで使用するテンプレート(要テンプレートカテゴリ) |
+| size | ページ名の入力フォームの大きさ |
+| button | ボタンに表示するテキスト |
+| format | 正規表現によるページ名の制限 |
+| tags | 作成したページに付与するタグ |
+| parent | 親ページやカテゴリを設定する |
+| mode | 作成したページをそのまま編集する(edit)か、NewPageモジュールの設置されたページに戻ってくる(save-and-refresh)か、作成したページへ移動する(save-and-go)か |
+| goTo | ページ作成後、移動するページの名前 |
+下の例であればexample.wikidot.com/article:0001(数字4桁)のようなページを作成し、そのままページを編集する。
+\`\`\`
+[[module NewPage category="article" template="template:article" size="5" button="今日の記事を作成" format="/^[0-9]{4}/" tags="日記" parent="article-hub" mode="edit"]]
+\`\`\`
+`
 		},
 		{name: "Clone", 
 			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			args: true, 
+			argsContent: [{name: 'source',value: ['"."', '"text"']}, {name: 'button', value: ['"text"']}], 
+			description: `サイトのクローンを作成する。sourceに書き込んだサイトか、現在のサイト。`
 		},
 		{name: "Redirect", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: 'destination',value: ['"http://URL/where-to-go/"']}], 
-			description: `description`
+			argsContent: [{name: 'destination',value: ['"http://URL/where-to-go/"', '"page-name"']}], 
+			description: `URL、もしくはページ名で示したリダイレクト先へリダイレクトする。
+destinationがスラッシュで終わる場合、下表のようにリダイレクトする。
+\`[[module Redirect destination="https://example.com/piyo/"\`
+| モジュールを設置したページ | リダイレクト先 |  
+| - | - |  
+| hoge.wikidot.com | example.com/piyo/ |
+| hoge.wikidot.com/huga | example.com/piyo/huga |`
 		},
 		{name: "ThemePreviewer", 
 			close: true, 
