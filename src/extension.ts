@@ -248,7 +248,7 @@ disable="true"の場合、モジュール内のCSSが適用されない。
 		},
 		{name: "NewPage", 
 			close: false, 
-			args: false, 
+			args: true, 
 			argsContent: [{name:'category',value: ['"カテゴリ名"']},
 			{name:'template',value: ['"テンプレートページ"']},
 			{name:'size',value: ['"正の整数"']},
@@ -278,13 +278,13 @@ disable="true"の場合、モジュール内のCSSが適用されない。
 `
 		},
 		{name: "Clone", 
-			close: true, 
+			close: false, 
 			args: true, 
 			argsContent: [{name: 'source',value: ['"."', '"text"']}, {name: 'button', value: ['"text"']}], 
 			description: `サイトのクローンを作成する。sourceに書き込んだサイトか、現在のサイト。`
 		},
 		{name: "Redirect", 
-			close: true, 
+			close: false, 
 			args: true, 
 			argsContent: [{name: 'destination',value: ['"http://URL/where-to-go/"', '"page-name"']}], 
 			description: `URL、もしくはページ名で示したリダイレクト先へリダイレクトする。
@@ -296,76 +296,112 @@ destinationがスラッシュで終わる場合、下表のようにリダイレ
 | hoge.wikidot.com/huga | example.com/piyo/huga |`
 		},
 		{name: "ThemePreviewer", 
-			close: true, 
-			args: false, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			close: false, 
+			args: true, 
+			argsContent: [{name: 'noUi',value: ['"true"', '"false"']}], 
+			description: `ページを編集せずにCSSテーマを変更して表示する。
+noUi="true"の場合はページのURL末尾に\`?theme_url=https://example.com/style.css\`を追加することでテーマを変更できる。`
 		},
 		{name: "MailForm", 
 			close: true, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `メールフォームを設置する。
+機能が多岐にわたるため、詳細は[ドキュメント](https://www.wikidot.com/doc-modules:mailform-module)を参照`
 		},
 		{name: "PetitionAdmin", 
-			close: true, 
+			close: false, 
 			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `申請の受付フォームを作成・管理する。
+取得する情報は名前、住所、コメントなど`
 		},
 		{name: "SiteGrid", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'limit',value: ['"integer"']}], 
+			description: `wikidot上のサイトのサムネイルを表示する。
+表示できるのはモジュール内に記述したサイトのみで、サイト名か完全なアドレスで示す必要がある。
+\`\`\`
+[[module SiteGrid]]
+scp-jp
+scp-wiki
+scpko
+scp-jp-sandbox3.wikidot.com
+[[/module]]
+\`\`\`
+`
 		},
 		{name: "FeaturedSite", 
 			close: true, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `サイトを1つだけ、大きく表示する。
+\`\`\`
+[[module FeaturedSite]]
+scp-wiki
+[[/module]]
+\`\`\``
 		},
 		{name: "Feed", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'src',value: ['"URL"']},{name: 'limit',value: ['"integer"']},{name: 'offset',value: ['"integer"']}], 
+			description: `RSS・Atomフィードを設置する。
+src属性のみ必須で、最低1つのURLを示す必要がある。
+複数記入する場合はセミコロンで区切る。
+\`\`\`
+[[module Feed src="https://example.com/rss.xml"]]
+%%title%% - %%date%%
+%%content%%
+[[/module]]
+\`\`\``
 		},
 		{name: "FrontForum", 
 			close: true, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'category', value: ['"semicolon-separated integers"']},
+			{name: 'feed', value: ['"alphanumeric"']},
+			{name: 'feedTitle', value: ['"string"']},
+			{name: 'limit', value: ['"number"']},
+			{name: 'offset', value: ['"number"']},
+			{name: 'fixRelativeLinks', value: ['"true"', '"false"']}], 
+			description: `指定したフォーラムカテゴリの書き込みを引っ張ってくる。
+feed属性を指定することで、RSS配信もできる。`
 		},
 		{name: "Comments", 
-			close: true, 
+			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'title', value: ['"text string"']},
+			{name: 'hide', value: ['"true"','"false"']},
+			{name: 'hideForm', value: ['"true"', '"false"']},
+			{name: 'order', value: ['"reverse"', '"forwards"']}], 
+			description: `ページにコメントフォームを表示する。
+通常のディスカッションと同じもの。`
 		},
 		{name: "RecentPosts", 
-			close: true, 
-			args: true, 
+			close: false, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `最近のフォーラムの書き込みを表示する。`
 		},
 		{name: "MiniRecentThreads", 
-			close: true, 
+			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'limit',value: ['"positive integer"']}], 
+			description: `最近書き込みのあったスレッドを表示する。`
 		},
 		{name: "MiniActiveThreads", 
-			close: true, 
+			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'limit',value: ['"positive integer"']}], 
+			description: `1週間で最も書き込みの多かったスレッドを表示する。`
 		},
 		{name: "MiniRecentPosts", 
-			close: true, 
+			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'limit',value: ['"positive integer"']}], 
+			description: `直近のフォーラムの投稿を表示する`
 		},
 		{name: "Rate", 
 			close: false, 
@@ -383,41 +419,43 @@ destinationがスラッシュで終わる場合、下表のようにリダイレ
 [[module RatedPages]]
 \`\`\``
 		},
-		{name: "Gallery", 
-			close: true, 
-			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
-		},
 		{name: "FlickrGallery", 
 			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'userName', value: ['"any UserName in flickr"']}
+			,{name: 'tags', value: ['"tags"']}
+			,{name: 'tagMode', value: ['"any"', '"all"']}
+			,{name: 'sort', value: ['"date-posted-asc"','"date-posted-desc"','"date-taken-asc"','"date-taken-desc"','"interestingness-desc"','"interestingness-asc"','"relevance"']}
+			,{name: 'perPage', value: ['"1~100"']}
+			,{name: 'limitPages', value: ['"any positive integer"']}
+			,{name: 'size', value: ['"square"', '"thumbnail" ', '"small"', '"medium"']}
+			,{name: 'disableBrowsing', value: ['"yes"','"no"']}
+			,{name: 'contentType', value: ['"photos"', '"screenshots"', '"other"', '"photos-screenshots"', '"screenshots-other"', '"photos-other"', '"all"']}], 
+			description: `Flickrから指定した条件の写真を引っ張ってくる。オプションは全て任意`
 		},
 		{name: "Files", 
 			close: false, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `ページに添付されたファイルを全て表示する。`
 		},
 		{name: "Search", 
 			close: false, 
 			args: true, 
-			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			argsContent: [{name: 'mini',value: ['"true"', '"false"']}, {name:'a', value: ['"p"', '"f"', '"pf"']}], 
+			description: `現在のサイト内を検索する。mini="true"の場合は検索オプションのラジオボタンが表示されなくなる。`
 		},
 		{name: "SearchAll", 
 			close: false, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `wikidot上の全てのページを検索する。`
 		},
 		{name: "SearchUsers", 
 			close: false, 
-			args: true, 
+			args: false, 
 			argsContent: [{name: '',value: ['']}], 
-			description: `description`
+			description: `ユーザーをメールアドレス、ニックネーム、本名などから検索する。`
 		},
 		{name: "SiteChanges", 
 			close: false, 
@@ -888,7 +926,8 @@ Second content
 			args: true, 
 			argsContent: [{name: '', 
 			value: ['tabName']}]
-		}],
+		}
+		],
 		[
 		{name: 'toc',
 			inline: false,
@@ -1095,13 +1134,6 @@ formatは必須ではない。
 			}
 		]
 	];
-var countShinchoku = 0;
-modules.forEach(args => {
-	if(args.description != "description") {
-		countShinchoku++
-	}
-})
-console.log(`${modules.length}個中${countShinchoku}個終わってる`)
 	function getConfig() {
         const config = vscode.workspace.getConfiguration(configKey);
         return {
