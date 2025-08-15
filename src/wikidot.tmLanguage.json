@@ -45,106 +45,80 @@
 		},
 		"error": {
 			"patterns": [
-				{
-					"name": "invalid.illegal.wikidot",
-					"match": "[^\\n]+\\[\\[div(?:\\s+[^\\]]+)?\\]\\]|\\[\\[div(?:\\s+[^\\]]+)?\\]\\][^\\n\\s]+"
-                },
-				{
-					"name": "invalid.illegal.wikidot",
-					"match": "[^\\n]+\\[\\[module.+\\]\\]|\\[\\[module.+\\]\\][^\\n\\s]+"
-				},
-				{
-					"name": "invalid.illegal.wikidot",
-					"match": "[^\\n]+\\[\\[include\\s.+\\]\\]|\\[\\[include\\s.+\\]\\][^\\n\\s]+"
-				}
 			]
 		}
 	},
 	"injections": {
-		"source.wikidot": {
+		"L:source.wikidot": {
 			"patterns": [
 				{
-					"begin": "(?i)(\\[\\[module css(?:\\s+[^\\s\\]]+)*\\]\\])",
+					"begin": "(?i)(\\[\\[module CSS[.]*\\]\\])",
 					"end": "(?i)(\\[\\[/module\\]\\])",
-					
 					"contentName": "source.css"
 				},
 				{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"css\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"css\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.css"
 				},
 				{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"php\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"php\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.php"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"html\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"html\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
-					"contentName": "source.html"
+					"contentName": "text.html"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"cpp\")?\\s*\\]\\])",
+						"begin": "(?i)(\\[\\html\\]\\])",
+						"end": "(?i)(\\[\\[/html\\]\\])",
+						"contentName": "text.html"
+					},
+					{
+					"begin": "(?i)(\\[\\[code \\s+type=\"cpp\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.cpp"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"css\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"diff\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
-					"contentName": "source.css"
-					},
-					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"diff\")?\\s*\\]\\])",
-					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.diff"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"dtd\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"dtd\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.dtd"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"java\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"java\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.java"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"javascript\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"javascript\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.javascript"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"perl\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"perl\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.perl"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"python\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"python\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.python"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"ruby\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"ruby\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.ruby"
 					},
 					{
-					"begin": "(?i)(\\[\\[code(?:\\s+type=\"xml\")?\\s*\\]\\])",
+					"begin": "(?i)(\\[\\[code \\s+type=\"xml\"\\s*\\]\\])",
 					"end": "(?i)(\\[\\[/code\\]\\])",
-					
 					"contentName": "source.xml"
 					}
 			]
