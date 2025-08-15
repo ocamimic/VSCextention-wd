@@ -5,7 +5,20 @@
 	  {"include": "#modules"},
 	  {"include": "#include"},
 	  {"include": "#tags"},
-	  {"include": "#markdown"}
+	  {"include": "#markdown"},
+	  {"include": "source.css"},
+	  {"include": "source.php"},
+	  {"include": "source.html"},
+	  {"include": "source.cpp"},
+	  {"include": "source.css"},
+	  {"include": "source.diff"},
+	  {"include": "source.dtd"},
+	  {"include": "source.java"},
+	  {"include": "source.javascript"},
+	  {"include": "source.perl"},
+	  {"include": "source.python"},
+	  {"include": "source.ruby"},
+	  {"include": "source.xml"}
 	],
 	"repository": {
 		"tags": {
@@ -16,8 +29,17 @@
 				"end": "--\\]"
 			},
 			{
-				"name": "keyword.control.wikidot",
-				"match": "\\[\\[.*?\\]\\]"
+				"name": "entity.name.tag.wikidot",
+				"match": "\\[\\[\\/?(\\w+)(?:\\s(\\w+)=(\".*\"))*\\]\\]",
+				"captures": {
+					"1": { "name": "entity.name.tag.wikidot" },
+					"2": { "name": "entity.other.attribute-name.wikidot" },
+					"3": { "name": "string.quoted.double.wikidot" }
+				}
+			},
+			{
+				"name": "entity.name.tag.wikidot",
+				"match": "\\[\\[\\/?\\w+\\]\\]"
 			}
 		]
 		},
@@ -35,6 +57,96 @@
 					"name": "invalid.illegal.wikidot",
 					"match": "[^\\n]+\\[\\[include\\s.+\\]\\]|\\[\\[include\\s.+\\]\\][^\\n\\s]+"
 				}
+			]
+		}
+	},
+	"injections": {
+		"source.wikidot": {
+			"patterns": [
+				{
+					"begin": "(?i)(\\[\\[module css(?:\\s+[^\\s\\]]+)*\\]\\])",
+					"end": "(?i)(\\[\\[/module\\]\\])",
+					
+					"contentName": "source.css"
+				},
+				{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"css\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.css"
+				},
+				{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"php\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.php"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"html\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.html"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"cpp\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.cpp"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"css\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.css"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"diff\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.diff"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"dtd\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.dtd"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"java\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.java"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"javascript\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.javascript"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"perl\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.perl"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"python\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.python"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"ruby\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.ruby"
+					},
+					{
+					"begin": "(?i)(\\[\\[code(?:\\s+type=\"xml\")?\\s*\\]\\])",
+					"end": "(?i)(\\[\\[/code\\]\\])",
+					
+					"contentName": "source.xml"
+					}
 			]
 		}
 	}
